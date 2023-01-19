@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!21 &457760392
+--- !u!21 &613185248
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -132,33 +132,6 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: MMD4Mecanim/MMDLit-NEXTEdge-Pass8
   m_Shader: {fileID: 4800000, guid: ff1e1d0bbf6980244a107d25ff535f9a, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2001
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _EdgeSize: 0.005
-    - _PostfixRenderQueue: 1
-    m_Colors:
-    - _EdgeColor: {r: 0.4, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &632331822
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: MMD4Mecanim/MMDLit-NEXTEdge-Pass4
-  m_Shader: {fileID: 4800000, guid: 684f8af9b4ff4bc459588db5b0f6275d, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -355,68 +328,95 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &4978567331033664912
+--- !u!21 &1097887103
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MMD4Mecanim/MMDLit-NEXTEdge-Pass4
+  m_Shader: {fileID: 4800000, guid: 684f8af9b4ff4bc459588db5b0f6275d, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2001
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _EdgeSize: 0.005
+    - _PostfixRenderQueue: 1
+    m_Colors:
+    - _EdgeColor: {r: 0.4, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!1001 &2477306441221294952
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2477306441858999341, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
+      propertyPath: nextEdgeMaterial_Pass4
+      value: 
+      objectReference: {fileID: 1097887103}
+    - target: {fileID: 2477306441858999341, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
+      propertyPath: nextEdgeMaterial_Pass8
+      value: 
+      objectReference: {fileID: 613185248}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4800227941145819059, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 2732436376582508203, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4978567332351305144, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
-      propertyPath: nextEdgeMaterial_Pass4
-      value: 
-      objectReference: {fileID: 632331822}
-    - target: {fileID: 4978567332351305144, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
-      propertyPath: nextEdgeMaterial_Pass8
-      value: 
-      objectReference: {fileID: 457760392}
-    - target: {fileID: 5320445840779046153, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+    - target: {fileID: 3359756536187327505, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
       propertyPath: m_Name
       value: Tartaglia
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 8a598a63db671184c8720dfad639bbff, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: b1df44939aa6c5f479cbe1cca24f535b, type: 3}
