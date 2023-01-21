@@ -3930,6 +3930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2732436376582508203}
   - component: {fileID: 2477306441858999341}
+  - component: {fileID: 4043020963761845020}
   m_Layer: 0
   m_Name: Tartaglia
   m_TagString: Untagged
@@ -4767,6 +4768,26 @@ MonoBehaviour:
   editorViewMorphBits: 15
   editorViewRigidBodies: 0
   editorViewMorphNameType: 0
+--- !u!95 &4043020963761845020
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3359756536187327505}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 04b0605e255f6994c835ebfd9f489271, type: 3}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3461142393718895723
 GameObject:
   m_ObjectHideFlags: 0
