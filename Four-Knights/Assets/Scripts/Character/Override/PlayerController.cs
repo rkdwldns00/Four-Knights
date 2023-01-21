@@ -15,9 +15,12 @@ public class PlayerController : Controller
     protected override void Update()
     {
         base.Update();
-        if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
-            Vector2 direction = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+            Vector2 direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+            Vector3 mul = Quaternion.Euler(0, camControll.camRotX, 0) * -new Vector3(direction.x, 0, direction.y);
+            direction = new Vector2(mul.x, mul.z);
+
             if (Input.GetKey(KeyCode.LeftShift))
             {
                 Run(direction);
