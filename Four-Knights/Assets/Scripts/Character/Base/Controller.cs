@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    Mover mover;
+    AnimatedMover mover;
     AnimatorManager animator;
 
     void Start()
     {
-        mover = GetComponent<Mover>();
+        mover = GetComponent<AnimatedMover>();
         animator = GetComponent<AnimatorManager>();
     }
 
@@ -19,5 +19,8 @@ public class Controller : MonoBehaviour
         
     }
 
-    
+    protected void SetSpeedState(int state)
+    {
+        
+    }
 }

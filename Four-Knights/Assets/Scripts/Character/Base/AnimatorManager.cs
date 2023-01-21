@@ -41,6 +41,10 @@ public class AnimatorManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 행동중 여부 판단
+    /// false일때만 행동가능하게 설정용
+    /// </summary>
     public bool IsActing
     {
         get { return actTimer > 0; }
@@ -50,7 +54,7 @@ public class AnimatorManager : MonoBehaviour
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        if(animator != null)
+        if(animator == null)
         {
             Debug.LogError("애니메이터가 존재하지않습니다!");
             Destroy(this);
