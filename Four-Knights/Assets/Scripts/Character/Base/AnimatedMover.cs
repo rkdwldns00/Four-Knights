@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimatedMover : MonoBehaviour
+public class AnimatedMover : MonoBehaviour, Mover
 {
     AnimatorManager animator;
     Quaternion targetDirection;
@@ -27,7 +27,7 @@ public class AnimatedMover : MonoBehaviour
     {
         if (currentDirection != targetDirection)
         {
-            currentDirection = Quaternion.Lerp(currentDirection, targetDirection, Time.deltaTime * 30);
+            currentDirection = Quaternion.Lerp(currentDirection, targetDirection, Time.deltaTime * 10);
             transform.rotation = currentDirection;
         }
     }

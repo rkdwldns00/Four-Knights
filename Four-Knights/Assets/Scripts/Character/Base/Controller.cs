@@ -4,23 +4,50 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    AnimatedMover mover;
+    Mover mover;
     AnimatorManager animator;
 
-    void Start()
+    protected virtual void Start()
     {
-        mover = GetComponent<AnimatedMover>();
+        mover = GetComponent<Mover>();
         animator = GetComponent<AnimatorManager>();
+        if(GetComponent<Controller>() != this)
+        {
+            Debug.LogError("한 게임오브젝트에 두개의 컨트롤러가 존재합니다.");
+            Destroy(this);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        
+
     }
 
-    protected void SetSpeedState(int state)
+    protected void Walk(Vector2 vector)
     {
-        
+        if (animator != null && animator.IsActing)
+        {
+            return;
+        }
+        if(mover == null)
+        {
+            Debug.LogError("Mover가 존재하지않습니다!");
+            return;
+        }
+        mover.Walk(vector);
+    }
+
+    protected void Run(Vector2 vector)
+    {
+        if (animator != null && animator.IsActing)
+        {
+            return;
+        }
+        if (mover == null)
+        {
+            Debug.LogError("Mover가 존재하지않습니다!");
+            return;
+        }
+        mover.Run(vector);
     }
 }
