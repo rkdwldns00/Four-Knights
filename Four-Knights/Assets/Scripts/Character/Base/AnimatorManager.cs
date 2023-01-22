@@ -2,9 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class AnimatorManager : MonoBehaviour
 {
+    [SerializeField] bool footIKEnable;
+    [SerializeField] GameObject footCollider;
+
     Animator animator;
     float actTimer;
 
@@ -12,6 +16,10 @@ public class AnimatorManager : MonoBehaviour
     float targetSpeed;
     float speedChangeRatio = 10;
     bool checkAttackLengthBuffer;
+
+    float ikTimer;
+    [SerializeField] float ikRayLength = 0.6f;
+    [SerializeField] float ikKneeHeight = 0.3f;
 
     /// <summary>
     /// Idle = 0, Walk = 1, Run = 2
@@ -54,7 +62,7 @@ public class AnimatorManager : MonoBehaviour
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        if(animator == null)
+        if (animator == null)
         {
             Debug.LogError("애니메이터가 존재하지않습니다!");
             Destroy(this);
@@ -64,6 +72,7 @@ public class AnimatorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ikTimer += Time.deltaTime;
         actTimer -= Time.deltaTime;
         if (currentSpeed != targetSpeed)
         {
@@ -74,6 +83,50 @@ public class AnimatorManager : MonoBehaviour
         {
             checkAttackLengthBuffer = false;
             actTimer = animator.GetNextAnimatorStateInfo(0).length;
+        }
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+        if (footIKEnable && animator.GetFloat("Speed") == 0f && !IsActing)
+        {
+            RaycastHit leftFootHit;
+            RaycastHit rightFootHit;
+            bool isLeftHit;
+            bool isRightHit;
+            isLeftHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up * ikKneeHeight, Vector3.down, out leftFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
+            isRightHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.RightFoot) + Vector3.up * ikKneeHeight, Vector3.down, out rightFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
+            Debug.DrawLine(leftFootHit.point - Vector3.down * 0.1f, leftFootHit.point + Vector3.down * 0.1f, Color.red, 0.1f);
+            Debug.DrawLine(rightFootHit.point - Vector3.down * 0.1f, rightFootHit.point + Vector3.down * 0.1f, Color.red, 0.1f);
+
+            if (!isLeftHit && !isRightHit)
+            {
+                ikTimer = 0;
+                footCollider.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
+                if (ikTimer > 0.3f && ikTimer < 1)
+                {
+                    ikTimer = 1;
+                    footCollider.transform.localPosition = new Vector3(0, ((leftFootHit.distance) + (rightFootHit.distance)) / 2 - ikKneeHeight, 0);
+                }
+            }
+            if (ikTimer >= 1)
+            {
+                animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
+                animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
+                animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootHit.point);
+                animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootHit.point);
+            }
+
+        }
+        else
+        {
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+            footCollider.transform.localPosition = Vector3.zero;
+            ikTimer = 0;
         }
     }
 
