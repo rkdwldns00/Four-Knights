@@ -7,6 +7,7 @@ using UnityEngine.Animations;
 public class AnimatorManager : MonoBehaviour
 {
     [SerializeField] bool footIKEnable;
+    [Header("IK 설정 (footIK를 쓸경우에만 입력)")]
     [SerializeField] GameObject footCollider;
 
     Animator animator;
@@ -18,8 +19,13 @@ public class AnimatorManager : MonoBehaviour
     bool checkAttackLengthBuffer;
 
     float ikTimer;
-    [SerializeField] float ikRayLength = 0.6f;
-    [SerializeField] float ikKneeHeight = 0.3f;
+    float ikRayLength;
+    [SerializeField] Transform LeftKnee;
+    [SerializeField] Transform LeftFoot;
+    [SerializeField] Transform RightKnee;
+    [SerializeField] Transform RightFoot;
+    float ikKneeHeight;
+    Vector3 targetFootPos;
 
     /// <summary>
     /// Idle = 0, Walk = 1, Run = 2
@@ -62,6 +68,11 @@ public class AnimatorManager : MonoBehaviour
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        if (footIKEnable)
+        {
+            ikKneeHeight = (LeftKnee.position.y + RightKnee.position.y) / 2 - (LeftFoot.position.y + RightFoot.position.y) / 2;
+            ikRayLength = ikKneeHeight * 2;
+        }
         if (animator == null)
         {
             Debug.LogError("애니메이터가 존재하지않습니다!");
@@ -84,6 +95,8 @@ public class AnimatorManager : MonoBehaviour
             checkAttackLengthBuffer = false;
             actTimer = animator.GetNextAnimatorStateInfo(0).length;
         }
+
+        footCollider.transform.localPosition = Vector3.Lerp(footCollider.transform.localPosition,targetFootPos,Time.deltaTime * 3);
     }
 
     private void OnAnimatorIK(int layerIndex)
@@ -102,14 +115,15 @@ public class AnimatorManager : MonoBehaviour
             if (!isLeftHit && !isRightHit)
             {
                 ikTimer = 0;
-                footCollider.transform.localPosition = Vector3.zero;
+                targetFootPos = Vector3.zero;
+                footCollider.transform.localPosition = targetFootPos;
             }
             else
             {
                 if (ikTimer > 0.3f && ikTimer < 1)
                 {
                     ikTimer = 1;
-                    footCollider.transform.localPosition = new Vector3(0, ((leftFootHit.distance) + (rightFootHit.distance)) / 2 - ikKneeHeight, 0);
+                    targetFootPos = new Vector3(0, ((leftFootHit.distance) + (rightFootHit.distance)) / 2 - ikKneeHeight, 0);
                 }
             }
             if (ikTimer >= 1)
@@ -125,7 +139,8 @@ public class AnimatorManager : MonoBehaviour
         {
             animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
-            footCollider.transform.localPosition = Vector3.zero;
+            targetFootPos = Vector3.zero;
+            footCollider.transform.localPosition = targetFootPos;
             ikTimer = 0;
         }
     }
