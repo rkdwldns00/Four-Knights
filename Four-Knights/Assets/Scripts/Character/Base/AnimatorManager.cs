@@ -11,7 +11,8 @@ public class AnimatorManager : MonoBehaviour
     [SerializeField] GameObject footCollider;
 
     Animator animator;
-    float actTimer;
+    float attackStunTimer;
+    float attackAnimationTimer;
 
     float currentSpeed;
     float targetSpeed;
@@ -34,23 +35,29 @@ public class AnimatorManager : MonoBehaviour
     {
         set
         {
-            switch (value)
+            if (!IsActing)
             {
-                case 0:
-                    targetSpeed = 0;
-                    speedChangeRatio = 5;
-                    break;
-                case 1:
-                    targetSpeed = 0.5f;
-                    speedChangeRatio = 10;
-                    break;
-                case 2:
-                    targetSpeed = 0.7f;
-                    speedChangeRatio = 10;
-                    break;
-                default:
-                    Debug.LogError("SpeedState에 범위밖의 값을 대입했습니다!");
-                    break;
+                if (targetSpeed == 0) {
+                    animator.SetTrigger("TryMove");
+                }
+                switch (value)
+                {
+                    case 0:
+                        targetSpeed = 0;
+                        speedChangeRatio = 5;
+                        break;
+                    case 1:
+                        targetSpeed = 0.5f;
+                        speedChangeRatio = 10;
+                        break;
+                    case 2:
+                        targetSpeed = 0.7f;
+                        speedChangeRatio = 10;
+                        break;
+                    default:
+                        Debug.LogError("SpeedState에 범위밖의 값을 대입했습니다!");
+                        break;
+                }
             }
         }
     }
@@ -61,9 +68,13 @@ public class AnimatorManager : MonoBehaviour
     /// </summary>
     public bool IsActing
     {
-        get { return actTimer > 0; }
+        get { return attackStunTimer > 0; }
     }
 
+    public bool IsIdle
+    {
+        get { return attackAnimationTimer <= 0; }
+    }
 
     void Start()
     {
@@ -84,7 +95,8 @@ public class AnimatorManager : MonoBehaviour
     void Update()
     {
         ikTimer += Time.deltaTime;
-        actTimer -= Time.deltaTime;
+        attackStunTimer -= Time.deltaTime;
+        attackAnimationTimer -= Time.deltaTime;
         if (currentSpeed != targetSpeed)
         {
             currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, speedChangeRatio * Time.deltaTime);
@@ -93,7 +105,7 @@ public class AnimatorManager : MonoBehaviour
         if (checkAttackLengthBuffer)
         {
             checkAttackLengthBuffer = false;
-            actTimer = animator.GetNextAnimatorStateInfo(0).length;
+            attackAnimationTimer = animator.GetNextAnimatorStateInfo(0).length;
         }
 
         footCollider.transform.localPosition = Vector3.Lerp(footCollider.transform.localPosition,targetFootPos,Time.deltaTime * 3);
@@ -101,7 +113,7 @@ public class AnimatorManager : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (footIKEnable && animator.GetFloat("Speed") == 0f && !IsActing)
+        if (footIKEnable && animator.GetFloat("Speed") == 0f && IsIdle)
         {
             RaycastHit leftFootHit;
             RaycastHit rightFootHit;
@@ -145,25 +157,31 @@ public class AnimatorManager : MonoBehaviour
         }
     }
 
-    public void UseAttack(int index)
+    public void UseAttack(int index,float stunTime)
     {
         animator.SetInteger("AttackIndex", index);
         animator.SetTrigger("UseAttack");
-        actTimer = 1;
+        attackAnimationTimer = 1;
+        attackStunTimer = stunTime;
+        SpeedState = 0;
         checkAttackLengthBuffer = true;
     }
 
-    public void UseSkill()
+    public void UseSkill(float stunTime)
     {
         animator.SetTrigger("UseSkill");
-        actTimer = 1;
+        attackAnimationTimer = 1;
+        attackStunTimer = stunTime;
+        SpeedState = 0;
         checkAttackLengthBuffer = true;
     }
 
-    public void UseUltimateSkil()
+    public void UseUltimateSkil(float stunTime)
     {
         animator.SetTrigger("UseUltimateSkil");
-        actTimer = 1;
+        attackAnimationTimer = 1;
+        attackStunTimer = stunTime;
+        SpeedState = 0;
         checkAttackLengthBuffer = true;
     }
 }
