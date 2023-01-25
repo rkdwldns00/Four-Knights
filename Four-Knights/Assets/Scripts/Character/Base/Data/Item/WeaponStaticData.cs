@@ -5,6 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="Weapon Data",menuName ="Scriptable Object/Weapon Data",order = int.MinValue)]
 public class WeaponStaticData : ItemStaticData
 {
+    public new ItemType ItemType {
+        get
+        {
+            return ItemType.Weapon;
+        }
+    }
+
+
+
     [SerializeField] int attack;
     public int Attack
     {
@@ -15,5 +24,11 @@ public class WeaponStaticData : ItemStaticData
     public UpgradeStatWithValue[] UpgradeStat
     {
         get { return upgradeStat; }
+    }
+
+    [SerializeField]WeaponType weaponType;
+    public WeaponType WeaponType
+    {
+        get { return weaponType; }
     }
 }

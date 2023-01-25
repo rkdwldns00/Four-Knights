@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WeaponType
+public enum ItemType
 {
-    OneHandSword,
-    TwoHandSword,
-    Bow,
-    Book
+    Weapon,
+    Accessories,
+    Etc
 }

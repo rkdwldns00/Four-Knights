@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Character Data",menuName ="Scriptable Object/Character Data",order = int.MinValue)]
+[CreateAssetMenu(fileName = "Character Data",menuName = "Scriptable Object/Character Data",order = int.MinValue)]
 public class CharacterData : ScriptableObject
 {
     [SerializeField] string characterName;
@@ -33,5 +33,11 @@ public class CharacterData : ScriptableObject
     public AttackData UltimateSkill
     {
         get { return ultimateSkill; }
+    }
+
+    [SerializeField] WeaponType weaponType;
+    public WeaponType WeaponType
+    {
+        get { return weaponType; }
     }
 }

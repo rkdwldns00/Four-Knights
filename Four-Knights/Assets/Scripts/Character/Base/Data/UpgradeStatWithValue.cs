@@ -4,6 +4,6 @@ using UnityEngine;
 
 public struct UpgradeStatWithValue
 {
-    UpgradeStatType UpgradeStatType;
-    float value;
+    public UpgradeStatType UpgradeStatType;
+    public float value;
 }
