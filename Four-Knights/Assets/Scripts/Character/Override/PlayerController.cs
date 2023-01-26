@@ -37,5 +37,18 @@ public class PlayerController : Controller
                 camControll.camRotX += hor * Time.deltaTime * 5;
             }
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            UseAttack();
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UseSkill();
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UseUltimateSkill();
+        }
     }
 }

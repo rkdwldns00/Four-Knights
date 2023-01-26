@@ -5,8 +5,15 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public static ItemTable itemTable;
+    static ItemTable itemTable;
     [SerializeField] ItemTable UsedItemTable;
+
+    public static ItemStaticData[] ItemTable
+    {
+        get {
+            return itemTable.Table;
+        }
+    }
 
     void Start()
     {

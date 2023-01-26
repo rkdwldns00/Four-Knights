@@ -4,11 +4,16 @@ using UnityEngine;
 
 public abstract class HitBox : MonoBehaviour
 {
-    public GameObject attacker;
+    public GameObject attacker { protected get; set; }
     public float UsedStatValue { protected get; set; }
 
     protected virtual void Hit(Victim target)
     {
-        attacker.GetComponent<Attacker>().ReciveVictimObject(target.gameObject);
+        if(attacker == target.gameObject)
+        {
+            return;
+        }
+        target.TakeDamage((int)UsedStatValue);
+        attacker.GetComponent<Attacker>().ReceiveVictimObject(target.gameObject);
     }
 }

@@ -13,7 +13,18 @@ MonoBehaviour:
   m_Name: Character Data
   m_EditorClassIdentifier: 
   characterName: "\uD0C0\uB974\uD0C8\uB9AC\uC544"
+  characterStat:
+    health: 100
+    attack: 10
+    defense: 100
+    criticalPercent: 0
+    criticalDamage: 0
+    levelUpStat:
+    - UpgradeStatType: 0
+      value: 0
+    weaponType: 0
   basicAttacks:
   - {fileID: 11400000, guid: 4fb3c423facba83489945e0273304959, type: 2}
   skill: {fileID: 0}
   ultimateSkill: {fileID: 0}
+  weaponType: 0

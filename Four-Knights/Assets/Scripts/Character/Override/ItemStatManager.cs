@@ -11,9 +11,9 @@ public class ItemStatManager : StatManager
     {
         set
         {
-            if (GameManager.itemTable.Table[value.id].ItemType == ItemType.Weapon)
+            if (GameManager.ItemTable[value.id].ItemType == ItemType.Weapon)
             {
-                if (((WeaponStaticData)GameManager.itemTable.Table[value.id]).WeaponType == characterData.WeaponType)
+                if (((WeaponStaticData)GameManager.ItemTable[value.id]).WeaponType == CharacterData.WeaponType)
                 {
                     weapon = value;
                 }
@@ -39,7 +39,7 @@ public class ItemStatManager : StatManager
                 bool c = true;
                 foreach (Item item in value)
                 {
-                    if (GameManager.itemTable.Table[item.id].ItemType != ItemType.Accessories)
+                    if (GameManager.ItemTable[item.id].ItemType != ItemType.Accessories)
                     {
                         c = false;
                         break;
@@ -64,23 +64,26 @@ public class ItemStatManager : StatManager
     protected override float FindUpgradeStat(UpgradeStatType type)
     {
         float value = base.FindUpgradeStat(type);
-        foreach (UpgradeStatWithValue upgradeStat in ((WeaponStaticData)GameManager.itemTable.Table[weapon.id]).UpgradeStat)
+        if (GameManager.ItemTable[weapon.id].ItemType == ItemType.Weapon)
         {
-            if (upgradeStat.UpgradeStatType == type)
+            foreach (UpgradeStatWithValue upgradeStat in ((WeaponStaticData)GameManager.ItemTable[weapon.id]).UpgradeStat)
             {
-                value += upgradeStat.value * ((WeaponUniqueData)weapon.uniqueData).enforce;
+                if (upgradeStat.UpgradeStatType == type)
+                {
+                    value += upgradeStat.value * ((WeaponUniqueData)weapon.uniqueData).enforce;
+                }
             }
         }
         foreach (Item item in accessories)
         {
-
-            foreach (UpgradeStatWithValue upgradeStat in ((AccessoriesUniqueData)(item.uniqueData)).upgradeStat)
+            if (GameManager.ItemTable[item.id].ItemType == ItemType.Accessories)
             {
-                value += upgradeStat.value * ((AccessoriesUniqueData)(item.uniqueData)).enforce;
+                foreach (UpgradeStatWithValue upgradeStat in ((AccessoriesUniqueData)(item.uniqueData)).upgradeStat)
+                {
+                    value += upgradeStat.value * ((AccessoriesUniqueData)(item.uniqueData)).enforce;
+                }
             }
         }
         return value;
     }
-
-
 }

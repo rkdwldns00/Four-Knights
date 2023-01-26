@@ -108,12 +108,19 @@ public class AnimatorManager : MonoBehaviour
             attackAnimationTimer = animator.GetNextAnimatorStateInfo(0).length;
         }
 
-        footCollider.transform.localPosition = Vector3.Lerp(footCollider.transform.localPosition,targetFootPos,Time.deltaTime * 3);
+        if (footIKEnable)
+        {
+            footCollider.transform.localPosition = Vector3.Lerp(footCollider.transform.localPosition, targetFootPos, Time.deltaTime * 3);
+        }
     }
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (footIKEnable && animator.GetFloat("Speed") == 0f && IsIdle)
+        if (!footIKEnable)
+        {
+            return;
+        }
+        if (animator.GetFloat("Speed") == 0f && IsIdle)
         {
             RaycastHit leftFootHit;
             RaycastHit rightFootHit;

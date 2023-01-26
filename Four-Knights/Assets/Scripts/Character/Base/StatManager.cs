@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class StatManager : MonoBehaviour
 {
-    [SerializeField] protected CharacterData characterData;
+    [SerializeField] CharacterData characterData;
+    protected CharacterData CharacterData
+    {
+        get { return characterData; }
+        set
+        {
+            characterData = value;
+        }
+    }
 
-    public int Level { get; protected set; }
+    int level;
+    public int Level {
+        get { return level; }
+        protected set { 
+            level = value;
+        }
+    }
 
     public AttackData[] BasicAttacks
     {
         get
         {
-            return characterData.BasicAttacks;
+            return CharacterData.BasicAttacks;
         }
     }
 
@@ -20,7 +34,7 @@ public class StatManager : MonoBehaviour
     {
         get
         {
-            return characterData.Skill;
+            return CharacterData.Skill;
         }
     }
 
@@ -28,42 +42,39 @@ public class StatManager : MonoBehaviour
     {
         get
         {
-            return characterData.Skill;
+            return CharacterData.Skill;
         }
     }
 
     public float GetStat(StatType stat)
     {
         CharacterStat value;
-        value = characterData.CharacterStat;
+        value = CharacterData.CharacterStat;
         switch (stat)
         {
             case StatType.Attack:
-                return (int)((float)(value.attack + (int)FindUpgradeStat(UpgradeStatType.Attack)) * (1f + FindUpgradeStat(UpgradeStatType.AttackPercent)));
+                return ((float)value.attack + FindUpgradeStat(UpgradeStatType.Attack)) * (1f + FindUpgradeStat(UpgradeStatType.AttackPercent));
             case StatType.Health:
-                return (int)((float)(value.health + (int)FindUpgradeStat(UpgradeStatType.Health)) * (1f + FindUpgradeStat(UpgradeStatType.HealthPercent)));
+                return ((float)value.health + FindUpgradeStat(UpgradeStatType.Health)) * (1f + FindUpgradeStat(UpgradeStatType.HealthPercent));
             case StatType.Defence:
-                return (int)((float)(value.defense + (int)FindUpgradeStat(UpgradeStatType.Defence)) * (1f + FindUpgradeStat(UpgradeStatType.DefensePercent)));
+                return ((float)value.defense + FindUpgradeStat(UpgradeStatType.Defence)) * (1f + FindUpgradeStat(UpgradeStatType.DefensePercent));
             case StatType.UltimateCharge:
                 return FindUpgradeStat(UpgradeStatType.UltimateCharge);
             default:
                 Debug.LogError("GetStat 함수가 잘못된타입을 검색하였습니다.");
                 return -1;
         }
-
-        value.criticalPercent = characterData.CharacterStat.criticalPercent + FindUpgradeStat(UpgradeStatType.CriticalPercent);
-        value.criticalDamage = characterData.CharacterStat.criticalDamage + FindUpgradeStat(UpgradeStatType.CriticalDamage);
     }
 
     protected virtual float FindUpgradeStat(UpgradeStatType type)
     {
-        foreach (UpgradeStatWithValue upgradeStat in characterData.CharacterStat.levelUpStat)
+        foreach (UpgradeStatWithValue upgradeStat in CharacterData.CharacterStat.levelUpStat)
         {
             if (upgradeStat.UpgradeStatType == type)
             {
                 return upgradeStat.value * Level;
             }
         }
-        return -1;
+        return 0;
     }
 }

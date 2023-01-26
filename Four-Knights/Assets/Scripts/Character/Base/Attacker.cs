@@ -5,32 +5,45 @@ using UnityEngine;
 public class Attacker : MonoBehaviour
 {
     protected StatManager statManager;
+    AnimatorManager animator;
 
-    float[] basicCool;
+    float basicCool;
     float skillCool;
     float ultimateSkillCool;
+
+    int attackIndex;
 
     protected virtual void Start()
     {
         statManager = GetComponent<StatManager>();
-        basicCool = new float[statManager.BasicAttacks.Length];
+        animator = GetComponent<AnimatorManager>();
     }
 
     protected void Update()
     {
-        for(int i = 0; i < basicCool.Length; i++)
-        {
-            basicCool[i] -= Time.deltaTime;
-        }
-        skillCool-=Time.deltaTime;
-        ultimateSkillCool-=Time.deltaTime;
+        basicCool -= Time.deltaTime;
+        skillCool -= Time.deltaTime;
+        ultimateSkillCool -= Time.deltaTime;
     }
 
-    public void UseAttack(int attackIndex)
+    public void UseAttack()
     {
-        if (basicCool[attackIndex] <= 0 ) {
-            basicCool[attackIndex] = statManager.BasicAttacks[attackIndex].CoolTime;
+        if (basicCool <= 0)
+        {
+            if (animator.IsIdle)
+            {
+                attackIndex = 0;
+            }
+            basicCool = statManager.BasicAttacks[attackIndex].CoolTime;
             InstantiateAttack(statManager.BasicAttacks[attackIndex]);
+            if (attackIndex == 6)
+            {
+                attackIndex = 0;
+            }
+            else
+            {
+                attackIndex += 1;
+            }
         }
     }
 
@@ -52,7 +65,7 @@ public class Attacker : MonoBehaviour
         }
     }
 
-    public virtual void ReciveVictimObject(GameObject victim)
+    public virtual void ReceiveVictimObject(GameObject victim)
     {
 
     }

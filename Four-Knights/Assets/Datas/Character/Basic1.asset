@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 279fc40b819b54144acebbea55cc82f3, type: 3}
   m_Name: Basic1
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  coolTime: 0
+  prefab: {fileID: 8988271545824776363, guid: 5d7fec84a946d0644813ed4342782496, type: 3}
+  coolTime: 1
+  usedStatType: 1
