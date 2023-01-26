@@ -16,19 +16,45 @@ public class Attacker : MonoBehaviour
         basicCool = new float[statManager.BasicAttacks.Length];
     }
 
+    protected void Update()
+    {
+        for(int i = 0; i < basicCool.Length; i++)
+        {
+            basicCool[i] -= Time.deltaTime;
+        }
+        skillCool-=Time.deltaTime;
+        ultimateSkillCool-=Time.deltaTime;
+    }
+
     public void UseAttack(int attackIndex)
     {
-        InstantiateAttack(statManager.BasicAttacks[attackIndex]);
+        if (basicCool[attackIndex] <= 0 ) {
+            basicCool[attackIndex] = statManager.BasicAttacks[attackIndex].CoolTime;
+            InstantiateAttack(statManager.BasicAttacks[attackIndex]);
+        }
     }
 
     public void UseSkill()
     {
-        Instantiate(statManager.Skill);
+        if (skillCool < 0)
+        {
+            skillCool = statManager.Skill.CoolTime;
+            Instantiate(statManager.Skill);
+        }
     }
 
-    public void voidUseUltimateSkill()
+    public void UseUltimateSkill()
     {
-        Instantiate(statManager.UltimateSkill);
+        if (ultimateSkillCool < 0)
+        {
+            ultimateSkillCool = statManager.UltimateSkill.CoolTime;
+            Instantiate(statManager.UltimateSkill);
+        }
+    }
+
+    public virtual void ReciveVictimObject(GameObject victim)
+    {
+
     }
 
     void InstantiateAttack(AttackData data)
