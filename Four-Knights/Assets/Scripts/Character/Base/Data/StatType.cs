@@ -7,5 +7,7 @@ public enum StatType
     Health,
     Attack,
     Defence,
-    UltimateCharge
+    UltimateCharge,
+    CriticalDamage,
+    CriticalPercent
 }

@@ -60,6 +60,10 @@ public class StatManager : MonoBehaviour
                 return ((float)value.defense + FindUpgradeStat(UpgradeStatType.Defence)) * (1f + FindUpgradeStat(UpgradeStatType.DefensePercent));
             case StatType.UltimateCharge:
                 return FindUpgradeStat(UpgradeStatType.UltimateCharge);
+            case StatType.CriticalDamage:
+                return value.criticalDamage + FindUpgradeStat(UpgradeStatType.CriticalDamage);
+            case StatType.CriticalPercent:
+                return value.criticalPercent + FindUpgradeStat(UpgradeStatType.CriticalPercent);
             default:
                 Debug.LogError("GetStat 함수가 잘못된타입을 검색하였습니다.");
                 return -1;

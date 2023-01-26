@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
 public class Attacker : MonoBehaviour
@@ -74,6 +75,11 @@ public class Attacker : MonoBehaviour
     {
         GameObject prefab = Instantiate(data.Prefab);
         prefab.GetComponent<HitBox>().attacker = gameObject;
-        prefab.GetComponent<HitBox>().UsedStatValue = statManager.GetStat(data.UsedStatType);
+        float damage = statManager.GetStat(data.UsedStatType);
+        if (Random.value < (statManager.GetStat(StatType.CriticalPercent) / 100f))
+        {
+            damage *= (1f + statManager.GetStat(StatType.CriticalDamage) / 100);
+        }
+        prefab.GetComponent<HitBox>().UsedStatValue = damage;
     }
 }

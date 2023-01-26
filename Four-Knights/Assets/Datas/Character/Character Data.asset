@@ -17,8 +17,8 @@ MonoBehaviour:
     health: 100
     attack: 10
     defense: 100
-    criticalPercent: 0
-    criticalDamage: 0
+    criticalPercent: 50
+    criticalDamage: 50
     levelUpStat:
     - UpgradeStatType: 0
       value: 0
