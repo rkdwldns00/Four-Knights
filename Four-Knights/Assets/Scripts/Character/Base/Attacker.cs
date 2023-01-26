@@ -4,15 +4,37 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    protected StatManager statManager;
+
+    float[] basicCool;
+    float skillCool;
+    float ultimateSkillCool;
+
+    protected virtual void Start()
     {
-        
+        statManager = GetComponent<StatManager>();
+        basicCool = new float[statManager.BasicAttacks.Length];
     }
 
-    // Update is called once per frame
-    void Update()
+    public void UseAttack(int attackIndex)
     {
-        
+        InstantiateAttack(statManager.BasicAttacks[attackIndex]);
+    }
+
+    public void UseSkill()
+    {
+        Instantiate(statManager.Skill);
+    }
+
+    public void voidUseUltimateSkill()
+    {
+        Instantiate(statManager.UltimateSkill);
+    }
+
+    void InstantiateAttack(AttackData data)
+    {
+        GameObject prefab = Instantiate(data.Prefab);
+        prefab.GetComponent<HitBox>().attacker = gameObject;
+        prefab.GetComponent<HitBox>().UsedStatValue = statManager.GetStat(data.UsedStatType);
     }
 }

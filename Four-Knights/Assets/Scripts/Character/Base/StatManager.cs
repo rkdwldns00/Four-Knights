@@ -32,16 +32,27 @@ public class StatManager : MonoBehaviour
         }
     }
 
-    public CharacterStat GetStat()
+    public float GetStat(StatType stat)
     {
         CharacterStat value;
         value = characterData.CharacterStat;
-        value.health = (int)((float)(value.health + (int)FindUpgradeStat(UpgradeStatType.Health)) * (1f + FindUpgradeStat(UpgradeStatType.HealthPercent)));
-        value.attack = (int)((float)(value.attack + (int)FindUpgradeStat(UpgradeStatType.Attack)) * (1f + FindUpgradeStat(UpgradeStatType.AttackPercent)));
-        value.defense = (int)((float)(value.defense + (int)FindUpgradeStat(UpgradeStatType.Defence)) * (1f + FindUpgradeStat(UpgradeStatType.DefensePercent)));
+        switch (stat)
+        {
+            case StatType.Attack:
+                return (int)((float)(value.attack + (int)FindUpgradeStat(UpgradeStatType.Attack)) * (1f + FindUpgradeStat(UpgradeStatType.AttackPercent)));
+            case StatType.Health:
+                return (int)((float)(value.health + (int)FindUpgradeStat(UpgradeStatType.Health)) * (1f + FindUpgradeStat(UpgradeStatType.HealthPercent)));
+            case StatType.Defence:
+                return (int)((float)(value.defense + (int)FindUpgradeStat(UpgradeStatType.Defence)) * (1f + FindUpgradeStat(UpgradeStatType.DefensePercent)));
+            case StatType.UltimateCharge:
+                return FindUpgradeStat(UpgradeStatType.UltimateCharge);
+            default:
+                Debug.LogError("GetStat 함수가 잘못된타입을 검색하였습니다.");
+                return -1;
+        }
+
         value.criticalPercent = characterData.CharacterStat.criticalPercent + FindUpgradeStat(UpgradeStatType.CriticalPercent);
         value.criticalDamage = characterData.CharacterStat.criticalDamage + FindUpgradeStat(UpgradeStatType.CriticalDamage);
-        return value;
     }
 
     protected virtual float FindUpgradeStat(UpgradeStatType type)
