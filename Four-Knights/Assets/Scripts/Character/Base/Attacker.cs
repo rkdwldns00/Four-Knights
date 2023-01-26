@@ -73,7 +73,7 @@ public class Attacker : MonoBehaviour
 
     void InstantiateAttack(AttackData data)
     {
-        GameObject prefab = Instantiate(data.Prefab);
+        GameObject prefab = Instantiate(data.Prefab,transform.position,transform.rotation);
         prefab.GetComponent<HitBox>().attacker = gameObject;
         float damage = statManager.GetStat(data.UsedStatType);
         if (Random.value < (statManager.GetStat(StatType.CriticalPercent) / 100f))
