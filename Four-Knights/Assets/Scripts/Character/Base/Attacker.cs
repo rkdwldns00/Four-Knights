@@ -31,13 +31,14 @@ public class Attacker : MonoBehaviour
     {
         if (basicCool <= 0)
         {
-            if (animator.IsIdle)
+          /*  if (animator.IsIdle)
             {
                 attackIndex = 0;
-            }
+            }*/
             basicCool = statManager.BasicAttacks[attackIndex].CoolTime;
             InstantiateAttack(statManager.BasicAttacks[attackIndex]);
-            if (attackIndex == 6)
+            animator.UseAttack(attackIndex, statManager.BasicAttacks[attackIndex].StunTime);
+            if (attackIndex == statManager.BasicAttacks.Length - 1)
             {
                 attackIndex = 0;
             }
@@ -54,6 +55,7 @@ public class Attacker : MonoBehaviour
         {
             skillCool = statManager.Skill.CoolTime;
             Instantiate(statManager.Skill);
+            animator.UseSkill(statManager.Skill.StunTime);
         }
     }
 
@@ -63,6 +65,7 @@ public class Attacker : MonoBehaviour
         {
             ultimateSkillCool = statManager.UltimateSkill.CoolTime;
             Instantiate(statManager.UltimateSkill);
+            animator.UseUltimateSkil(statManager.UltimateSkill.StunTime);
         }
     }
 

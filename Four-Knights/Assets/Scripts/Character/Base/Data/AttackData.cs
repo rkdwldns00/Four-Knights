@@ -17,6 +17,12 @@ public class AttackData : ScriptableObject
         get { return coolTime; }
     }
 
+    [SerializeField] float stunTime;
+    public float StunTime
+    {
+        get { return stunTime; }
+    }
+
     [SerializeField] StatType usedStatType;
     public StatType UsedStatType
     {

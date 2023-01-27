@@ -60,6 +60,7 @@ public class AnimatedMover : MonoBehaviour, Mover
     /// <param name="direction"></param>
     public void Look(Vector2 direction)
     {
+        if (animator.IsActing) { return; }
         targetDirection = Quaternion.Euler(0, (Mathf.Atan2(-direction.y, direction.x) * Mathf.Rad2Deg) + 90f, 0);
     }
 

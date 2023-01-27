@@ -27,10 +27,10 @@ public class Controller : MonoBehaviour
 
     protected void Walk(Vector2 vector)
     {
-        if (animator != null && animator.IsActing)
+        /*if (animator != null && animator.IsActing)
         {
             return;
-        }
+        }*/
         if(mover == null)
         {
             Debug.LogError("Mover가 존재하지않습니다!");
@@ -41,10 +41,10 @@ public class Controller : MonoBehaviour
 
     protected void Run(Vector2 vector)
     {
-        if (animator != null && animator.IsActing)
+        /*if (animator != null && animator.IsActing)
         {
             return;
-        }
+        }*/
         if (mover == null)
         {
             Debug.LogError("Mover가 존재하지않습니다!");

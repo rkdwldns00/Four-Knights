@@ -35,9 +35,11 @@ public class AnimatorManager : MonoBehaviour
     {
         set
         {
+            
             if (!IsActing)
             {
-                if (targetSpeed == 0) {
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Speed") && !animator.GetNextAnimatorStateInfo(0).IsName("Speed") && value != 0)
+                {
                     animator.SetTrigger("TryMove");
                 }
                 switch (value)
@@ -94,6 +96,7 @@ public class AnimatorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(IsActing);
         ikTimer += Time.deltaTime;
         attackStunTimer -= Time.deltaTime;
         attackAnimationTimer -= Time.deltaTime;
