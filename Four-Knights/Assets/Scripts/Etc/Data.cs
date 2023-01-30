@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct Item
+public class Data
 {
-    public int id;
-    public ItemUniqueData uniqueData;
+    public int[] level = new int[] {};
+    public Item[] inventory = new Item[] {};
 }
