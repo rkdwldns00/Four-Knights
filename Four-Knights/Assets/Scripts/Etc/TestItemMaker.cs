@@ -9,10 +9,10 @@ public class TestItemMaker : MonoBehaviour
     void Start()
     {
         itemStatManager = GetComponent<ItemStatManager>();
-        Debug.Log(GameManager.ItemTable[itemStatManager.FindItem(1).id].ItemName);
-        int index = itemStatManager.AddEtcItem(new Item() { id = 1 }, 1);
-        Debug.Log(itemStatManager.Inventory.Length);
-        Debug.Log(((EtcUniqueData)(itemStatManager.Inventory[index].uniqueData)).count);
+        //itemStatManager.AddEtcItem(new Item() { id = 1 }, 1);
+        itemStatManager.AddEtcItem(new Item() { id = 1 }, -2);
+        
+        Debug.Log("읽은개수 : "+((EtcUniqueData)(itemStatManager.FindItemInfo(1).uniqueData)).count);
     }
 
     // Update is called once per frame

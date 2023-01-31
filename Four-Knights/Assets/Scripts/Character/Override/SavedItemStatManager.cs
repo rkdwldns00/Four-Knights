@@ -6,8 +6,10 @@ public class SavedItemStatManager : ItemStatManager
 {
     public override Item[] Inventory
     {
-        get {
-            return DataManager.instance.GetData().inventory; }
+        get
+        {
+            return DataManager.instance.GetInventory();
+        }
         protected set { DataManager.instance.SetInventoryData(value); }
     }
 }

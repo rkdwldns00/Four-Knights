@@ -7,5 +7,8 @@ using UnityEngine;
 public class Data
 {
     public int[] level = new int[] {};
-    public Item[] inventory = new Item[] {};
+    public ItemWithUniqueIndex[] inventory = new ItemWithUniqueIndex[] {};
+    public WeaponUniqueData[] weaponUniqueData = new WeaponUniqueData[] {};
+    public AccessoriesUniqueData[] accessoriesUniqueData = new AccessoriesUniqueData[] {};
+    public EtcUniqueData[] etcUniqueData = new EtcUniqueData[] {};
 }

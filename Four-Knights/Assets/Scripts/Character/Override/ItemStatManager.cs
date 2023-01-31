@@ -10,7 +10,7 @@ public class ItemStatManager : StatManager
     public virtual Item[] Inventory
     {
         get { return inventory; }
-        protected set { inventory = value; }
+        protected set { inventory = value; Debug.Log("로컬 인벤토리 설정"); }
     }
 
     protected Item weapon;
@@ -96,8 +96,7 @@ public class ItemStatManager : StatManager
 
     int AddItem(Item item,int count)
     {
-        Debug.Log("아이템 추가 : "+item.id);
-        if (GameManager.ItemTable[item.id].ItemType != ItemType.Etc || FindItem(item.id).id == 0)
+        if (GameManager.ItemTable[item.id].ItemType != ItemType.Etc || FindItemInfo(item.id).id == 0)
         {
             int nullIndex = -1;
             for (int i = 0; i < Inventory.Length; i++)
@@ -117,15 +116,17 @@ public class ItemStatManager : StatManager
                     items[i] = Inventory[i];
                 }
                 items[items.Length - 1] = item;
-                
+                items = CreateUniqueData(items, items.Length - 1);
+
                 Inventory = items;
-                CreateUniqueData(items.Length - 1);
                 return Inventory.Length - 1;
             }
             else
             {
-                Inventory[nullIndex] = item;
-                CreateUniqueData(nullIndex);
+                Item[] items = Inventory;
+                items[nullIndex] = item;
+                items = CreateUniqueData(items,nullIndex);
+                Inventory = items;
                 return nullIndex;
             }
         }
@@ -135,30 +136,42 @@ public class ItemStatManager : StatManager
             {
                 if (Inventory[i].id == item.id)
                 {
-                    EtcUniqueData d = ((EtcUniqueData)(Inventory[i].uniqueData));
-                    d.count += count;
-                    Inventory[i].uniqueData = d;
-                    return i;
+                    if (((EtcUniqueData)Inventory[i].uniqueData).count + count != 0)
+                    {
+                        EtcUniqueData d = (EtcUniqueData)Inventory[i].uniqueData;
+                        d.count += count;
+                        Debug.Log("etc count 더하기");
+                        Item[] inven = Inventory;
+                        inven[i].uniqueData = d;
+                        Inventory = inven;
+                        return i;
+                    }
+                    else
+                    {
+                        DeleteItem(i);
+                        return -1;
+                    }
                 }
             }
         }
         return -1;
     }
 
-    void CreateUniqueData(int index)
+    Item[] CreateUniqueData(Item[] items,int index)
     {
-        switch (GameManager.ItemTable[Inventory[index].id].ItemType)
+        switch (GameManager.ItemTable[items[index].id].ItemType)
         {
             case ItemType.Etc:
-                Inventory[index].uniqueData = new EtcUniqueData() { count = 1 };
+                items[index].uniqueData = new EtcUniqueData() { count = 1 };
                 break;
             case ItemType.Weapon:
-                Inventory[index].uniqueData = new WeaponUniqueData() { enforce = 1 };
+                items[index].uniqueData = new WeaponUniqueData() { enforce = 1 };
                 break;
             case ItemType.Accessories:
-                Inventory[index].uniqueData = new AccessoriesUniqueData() { enforce = 1 };
+                items[index].uniqueData = new AccessoriesUniqueData() { enforce = 1 };
                 break;
         }
+        return items;
     }
 
     public int AddAccessories(Item item,AccessoriesUniqueData uniqueData)
@@ -168,7 +181,9 @@ public class ItemStatManager : StatManager
             Debug.LogError("장신구아이템이 아닌 아이템에 AccessoriesUniqueData 속성이 추가되었습니다.");
         }
         int index = AddItem(item, 1);
-        Inventory[index].uniqueData = uniqueData;
+        Item[] inven = Inventory;
+        inven[index].uniqueData = uniqueData;
+        Inventory = inven;
         return index;
     }
 
@@ -208,18 +223,21 @@ public class ItemStatManager : StatManager
             {
                 items[i] = Inventory[i];
             }
+            Inventory = items;
         }
         else
         {
-            Inventory[index] = new Item()
+            Item[] inven = Inventory;
+            inven[index] = new Item()
             {
                 id = 0,
                 uniqueData = new EtcUniqueData()
             };
+            Inventory = inven;
         }
     }
 
-    public Item FindItem(int id)
+    public Item FindItemInfo(int id)
     {
         foreach(Item item in Inventory)
         {
@@ -229,5 +247,21 @@ public class ItemStatManager : StatManager
             }
         }
         return new Item();
+    }
+
+    public int FindEtcItemIndex(int id)
+    {
+        if (GameManager.ItemTable[id].ItemType != ItemType.Etc)
+        {
+            return -1;
+        }
+        for(int i =0;i<Inventory.Length;i++)
+        {
+            if (Inventory[i].id == id)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }
