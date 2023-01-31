@@ -10,7 +10,7 @@ public class TestItemMaker : MonoBehaviour
     {
         itemStatManager = GetComponent<ItemStatManager>();
         //itemStatManager.AddEtcItem(new Item() { id = 1 }, 1);
-        itemStatManager.AddEtcItem(new Item() { id = 1 }, -2);
+        //itemStatManager.AddEtcItem(new Item() { id = 1 }, -2);
         
         Debug.Log("읽은개수 : "+((EtcUniqueData)(itemStatManager.FindItemInfo(1).uniqueData)).count);
     }

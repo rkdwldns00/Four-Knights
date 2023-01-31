@@ -246,7 +246,14 @@ public class ItemStatManager : StatManager
                 return item;
             }
         }
-        return new Item();
+
+        Item nullItem = new Item();
+        if (GameManager.ItemTable[id].ItemType == ItemType.Etc)
+        {
+            nullItem.uniqueData = new EtcUniqueData() { count = 0 };
+        }
+        
+        return nullItem;
     }
 
     public int FindEtcItemIndex(int id)
