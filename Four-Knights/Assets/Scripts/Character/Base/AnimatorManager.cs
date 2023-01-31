@@ -96,7 +96,6 @@ public class AnimatorManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(IsActing);
         ikTimer += Time.deltaTime;
         attackStunTimer -= Time.deltaTime;
         attackAnimationTimer -= Time.deltaTime;
