@@ -17,7 +17,7 @@ public class ItemStaticData : ScriptableObject
         get { return sprite; }
     }
 
-    public ItemType ItemType
+    public virtual ItemType ItemType
     {
         get { return ItemType.Etc; }
     }

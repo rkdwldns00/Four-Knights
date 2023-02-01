@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="Weapon Data",menuName ="Scriptable Object/Weapon Data",order = int.MinValue)]
 public class WeaponStaticData : ItemStaticData
 {
-    public new ItemType ItemType {
+    public override ItemType ItemType {
         get
         {
             return ItemType.Weapon;

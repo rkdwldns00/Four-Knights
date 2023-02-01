@@ -1,8 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class ItemStatManager : StatManager
 {
@@ -94,7 +94,7 @@ public class ItemStatManager : StatManager
         return value;
     }
 
-    int AddItem(Item item,int count)
+    public int AddItem(Item item)
     {
         if (GameManager.ItemTable[item.id].ItemType != ItemType.Etc || FindItemInfo(item.id).id == 0)
         {
@@ -136,10 +136,10 @@ public class ItemStatManager : StatManager
             {
                 if (Inventory[i].id == item.id)
                 {
-                    if (((EtcUniqueData)Inventory[i].uniqueData).count + count != 0)
+                    if (((EtcUniqueData)Inventory[i].uniqueData).count + ((EtcUniqueData)item.uniqueData).count != 0)
                     {
                         EtcUniqueData d = (EtcUniqueData)Inventory[i].uniqueData;
-                        d.count += count;
+                        d.count += ((EtcUniqueData)item.uniqueData).count;
                         Debug.Log("etc count 더하기");
                         Item[] inven = Inventory;
                         inven[i].uniqueData = d;
@@ -162,52 +162,33 @@ public class ItemStatManager : StatManager
         switch (GameManager.ItemTable[items[index].id].ItemType)
         {
             case ItemType.Etc:
-                items[index].uniqueData = new EtcUniqueData() { count = 1 };
+                if (((EtcUniqueData)items[index].uniqueData).count == 0)
+                {
+                    items[index].uniqueData = new EtcUniqueData() { count = 1 };
+                }
                 break;
             case ItemType.Weapon:
-                items[index].uniqueData = new WeaponUniqueData() { enforce = 1 };
+                if (((WeaponUniqueData)items[index].uniqueData).enforce == 0)
+                {
+                    items[index].uniqueData = new WeaponUniqueData() { enforce = 1 };
+                }
                 break;
             case ItemType.Accessories:
-                items[index].uniqueData = new AccessoriesUniqueData() { enforce = 1 };
+                if (((AccessoriesUniqueData)items[index].uniqueData).enforce == 0)
+                {
+                    AccessoriesUniqueData unique = new AccessoriesUniqueData() { enforce = 1 };
+                    UpgradeStatWithValue[] randomList = ((AccssoriesStaticData)GameManager.ItemTable[items[index].id]).MaxUpgradeStatList;
+                    unique.upgradeStat = new UpgradeStatWithValue[2];
+                    unique.upgradeStat[0] = randomList[UnityEngine.Random.Range(0,randomList.Length)];
+                    unique.upgradeStat[0].value *= UnityEngine.Random.Range(0.5f, 1f);
+                    unique.upgradeStat[1] = randomList[UnityEngine.Random.Range(0, randomList.Length)];
+                    unique.upgradeStat[1].value *= UnityEngine.Random.Range(0.5f, 1f);
+
+                    items[index].uniqueData = unique;
+                }
                 break;
         }
         return items;
-    }
-
-    public int AddAccessories(Item item,AccessoriesUniqueData uniqueData)
-    {
-        if (GameManager.ItemTable[item.id].ItemType != ItemType.Accessories)
-        {
-            Debug.LogError("장신구아이템이 아닌 아이템에 AccessoriesUniqueData 속성이 추가되었습니다.");
-        }
-        int index = AddItem(item, 1);
-        Item[] inven = Inventory;
-        inven[index].uniqueData = uniqueData;
-        Inventory = inven;
-        return index;
-    }
-
-    public int AddAccessories(Item item)
-    {
-        return AddAccessories(item, new AccessoriesUniqueData());
-    }
-
-    public int AddWeapon(Item item)
-    {
-        if (GameManager.ItemTable[item.id].ItemType != ItemType.Etc)
-        {
-            Debug.LogError("무기아이템이 아닌 아이템이 무기추가 함수를 사용하였습니다.");
-        }
-        return AddItem(item, 1);
-    }
-
-    public int AddEtcItem(Item item,int count)
-    {
-        if (GameManager.ItemTable[item.id].ItemType != ItemType.Etc)
-        {
-            Debug.LogError("기타아이템이 아닌 아이템에 count 속성이 요청되었습니다.");
-        }
-        return AddItem(item, count);
     }
 
     public void DeleteItem(int index)

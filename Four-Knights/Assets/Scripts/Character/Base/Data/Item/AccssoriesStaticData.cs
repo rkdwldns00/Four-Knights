@@ -5,16 +5,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Accssorie Data",menuName = "Scriptable Object/Accssorie Data",order =int.MinValue)]
 public class AccssoriesStaticData : ItemStaticData
 {
-    public new ItemType ItemType
+    public override ItemType ItemType
     {
         get { return ItemType.Accessories; }
     }
 
-
-
-    [SerializeField] UpgradeStatWithValue[] upgradeStat;
-    public UpgradeStatWithValue[] UpgradeStat
+    [SerializeField] UpgradeStatWithValue[] maxUpgradeStatList;
+    public UpgradeStatWithValue[] MaxUpgradeStatList
     {
-        get { return upgradeStat; }
+        get { return maxUpgradeStatList; }
     }
 }
