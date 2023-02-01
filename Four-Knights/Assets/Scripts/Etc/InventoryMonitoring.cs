@@ -10,7 +10,7 @@ public class InventoryMonitoring : MonoBehaviour
 
     void Start()
     {
-        ui.GetComponent<Text>();
+        ui = GetComponent<Text>();
         player = FindObjectOfType<ItemStatManager>();
     }
 

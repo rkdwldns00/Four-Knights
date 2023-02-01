@@ -162,19 +162,19 @@ public class ItemStatManager : StatManager
         switch (GameManager.ItemTable[items[index].id].ItemType)
         {
             case ItemType.Etc:
-                if (((EtcUniqueData)items[index].uniqueData).count == 0)
+                if (items[index].uniqueData == null || ((EtcUniqueData)items[index].uniqueData).count == 0)
                 {
                     items[index].uniqueData = new EtcUniqueData() { count = 1 };
                 }
                 break;
             case ItemType.Weapon:
-                if (((WeaponUniqueData)items[index].uniqueData).enforce == 0)
+                if (items[index].uniqueData == null || ((WeaponUniqueData)items[index].uniqueData).enforce == 0)
                 {
                     items[index].uniqueData = new WeaponUniqueData() { enforce = 1 };
                 }
                 break;
             case ItemType.Accessories:
-                if (((AccessoriesUniqueData)items[index].uniqueData).enforce == 0)
+                if (items[index].uniqueData == null || ((AccessoriesUniqueData)items[index].uniqueData).enforce == 0)
                 {
                     AccessoriesUniqueData unique = new AccessoriesUniqueData() { enforce = 1 };
                     UpgradeStatWithValue[] randomList = ((AccssoriesStaticData)GameManager.ItemTable[items[index].id]).MaxUpgradeStatList;

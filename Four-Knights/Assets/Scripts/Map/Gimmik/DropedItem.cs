@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class DropedItem : Interactable
 {
-    [SerializeField] Item item;
-    public Item Item
-    {
-        get { return item; }
-        protected set { item = value; }
-    }
+    public Item item;
+    [SerializeField] GameObject basicModelPrefab;
 
     private void Start()
     {
-        ActiveSymbol = Instantiate(GameManager.ItemTable[item.id].Model, transform);
+        if (showedName == null || showedName == "")
+        {
+            showedName = GameManager.ItemTable[item.id].ItemName;
+        }
+        if (GameManager.ItemTable[item.id].Model != null)
+        {
+            ActiveSymbol = Instantiate(GameManager.ItemTable[item.id].Model, transform);
+        }
+        else
+        {
+            ActiveSymbol = Instantiate(basicModelPrefab, transform);
+        }
     }
 
     public override void Interaction(GameObject eventPlayer)
@@ -22,7 +29,7 @@ public class DropedItem : Interactable
         ItemStatManager statManager = eventPlayer.GetComponent<ItemStatManager>();
         if (statManager != null)
         {
-            statManager.AddItem(Item);
+            statManager.AddItem(item);
             Destroy(gameObject);
         }
     }

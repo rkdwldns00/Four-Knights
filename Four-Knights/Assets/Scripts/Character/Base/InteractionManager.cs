@@ -24,7 +24,6 @@ public class InteractionManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("dddd");
         if (other.GetComponent<Interactable>() != null)
         {
             list.Add(other.GetComponent<Interactable>());

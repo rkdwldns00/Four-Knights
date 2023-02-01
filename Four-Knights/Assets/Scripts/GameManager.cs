@@ -10,14 +10,24 @@ public class GameManager : MonoBehaviour
 
     public static ItemStaticData[] ItemTable
     {
-        get {
+        get
+        {
             return itemTable.Table;
         }
     }
 
+    [SerializeField] GameObject dropedItemPrefab;
+    public static GameObject DropedItemPrefab { get; private set; }
+
+    private void Awake()
+    {
+        itemTable = UsedItemTable;
+        DropedItemPrefab = dropedItemPrefab;
+    }
+
     void Start()
     {
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         }
@@ -26,12 +36,11 @@ public class GameManager : MonoBehaviour
             Debug.LogError("GameManager가 여러개입니다!");
             Destroy(this);
         }
-        itemTable = UsedItemTable;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

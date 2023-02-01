@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] string showedName;
+    [SerializeField] protected string showedName;
     GameObject activeSymbol;
     protected GameObject ActiveSymbol
     {
@@ -17,7 +17,8 @@ public abstract class Interactable : MonoBehaviour
     }
 
     bool isActive = true;
-    public bool IsActive {
+    public bool IsActive
+    {
         get
         {
             return isActive;

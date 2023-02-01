@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
     // --- 저장용 클래스 변수 --- //
     Data data = new Data();
 
-    private void Start()
+    private void Awake()
     {
         if (instance == null)
         {
