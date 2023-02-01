@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class DropedItem : Interactable
 {
-    public Item Item { get; protected set; }
+    [SerializeField] Item item;
+    public Item Item
+    {
+        get { return item; }
+        protected set { item = value; }
+    }
+
+    private void Start()
+    {
+        ActiveSymbol = Instantiate(GameManager.ItemTable[item.id].Model, transform);
+    }
 
     public override void Interaction(GameObject eventPlayer)
     {

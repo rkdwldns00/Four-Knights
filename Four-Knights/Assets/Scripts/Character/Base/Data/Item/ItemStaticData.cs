@@ -17,6 +17,12 @@ public class ItemStaticData : ScriptableObject
         get { return sprite; }
     }
 
+    [SerializeField] GameObject model;
+    public GameObject Model
+    {
+        get { return model; }
+    }
+
     public virtual ItemType ItemType
     {
         get { return ItemType.Etc; }

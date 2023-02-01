@@ -5,7 +5,16 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] string showedName;
-    [SerializeField] GameObject activeSymbol;
+    GameObject activeSymbol;
+    protected GameObject ActiveSymbol
+    {
+        get { return activeSymbol; }
+        set
+        {
+            activeSymbol = value;
+            activeSymbol.SetActive(IsActive);
+        }
+    }
 
     bool isActive = true;
     public bool IsActive {
