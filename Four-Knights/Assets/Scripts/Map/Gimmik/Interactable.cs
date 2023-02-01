@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
+    [SerializeField] string showedName;
     [SerializeField] GameObject activeSymbol;
 
     bool isActive = true;

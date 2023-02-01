@@ -187,6 +187,11 @@ public class ItemStatManager : StatManager
         return index;
     }
 
+    public int AddAccessories(Item item)
+    {
+        return AddAccessories(item, new AccessoriesUniqueData());
+    }
+
     public int AddWeapon(Item item)
     {
         if (GameManager.ItemTable[item.id].ItemType != ItemType.Etc)
