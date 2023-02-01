@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct DropTagData
+public struct DropItemWitPercent
 {
-    public float dropPercent;
-    public DropItemWitPercent[] items;
+    public Item item;
+    public float percent;
 }

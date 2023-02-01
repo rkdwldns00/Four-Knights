@@ -47,6 +47,7 @@ public class InteractionManager : MonoBehaviour
                 if (interactable.IsActive)
                 {
                     interactable.Interaction(gameObject);
+                    list.Remove(interactable);
                     break;
                 }
             }

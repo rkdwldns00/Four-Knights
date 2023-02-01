@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class ItemStatManager : StatManager
 {
@@ -136,11 +138,14 @@ public class ItemStatManager : StatManager
             {
                 if (Inventory[i].id == item.id)
                 {
+                    if (item.uniqueData == null)
+                    {
+                        item = CreateUniqueData(item);
+                    }
                     if (((EtcUniqueData)Inventory[i].uniqueData).count + ((EtcUniqueData)item.uniqueData).count != 0)
                     {
                         EtcUniqueData d = (EtcUniqueData)Inventory[i].uniqueData;
                         d.count += ((EtcUniqueData)item.uniqueData).count;
-                        Debug.Log("etc count ¥ı«œ±‚");
                         Item[] inven = Inventory;
                         inven[i].uniqueData = d;
                         Inventory = inven;
@@ -159,36 +164,42 @@ public class ItemStatManager : StatManager
 
     Item[] CreateUniqueData(Item[] items,int index)
     {
-        switch (GameManager.ItemTable[items[index].id].ItemType)
+        items[index] = CreateUniqueData(items[index]);
+        return items;
+    }
+
+    Item CreateUniqueData(Item item)
+    {
+        switch (GameManager.ItemTable[item.id].ItemType)
         {
             case ItemType.Etc:
-                if (items[index].uniqueData == null || ((EtcUniqueData)items[index].uniqueData).count == 0)
+                if (item.uniqueData == null || ((EtcUniqueData)item.uniqueData).count == 0)
                 {
-                    items[index].uniqueData = new EtcUniqueData() { count = 1 };
+                    item.uniqueData = new EtcUniqueData() { count = 1 };
                 }
                 break;
             case ItemType.Weapon:
-                if (items[index].uniqueData == null || ((WeaponUniqueData)items[index].uniqueData).enforce == 0)
+                if (item.uniqueData == null || ((WeaponUniqueData)item.uniqueData).enforce == 0)
                 {
-                    items[index].uniqueData = new WeaponUniqueData() { enforce = 1 };
+                    item.uniqueData = new WeaponUniqueData() { enforce = 1 };
                 }
                 break;
             case ItemType.Accessories:
-                if (items[index].uniqueData == null || ((AccessoriesUniqueData)items[index].uniqueData).enforce == 0)
+                if (item.uniqueData == null || ((AccessoriesUniqueData)item.uniqueData).enforce == 0)
                 {
                     AccessoriesUniqueData unique = new AccessoriesUniqueData() { enforce = 1 };
-                    UpgradeStatWithValue[] randomList = ((AccssoriesStaticData)GameManager.ItemTable[items[index].id]).MaxUpgradeStatList;
+                    UpgradeStatWithValue[] randomList = ((AccssoriesStaticData)GameManager.ItemTable[item.id]).MaxUpgradeStatList;
                     unique.upgradeStat = new UpgradeStatWithValue[2];
-                    unique.upgradeStat[0] = randomList[UnityEngine.Random.Range(0,randomList.Length)];
+                    unique.upgradeStat[0] = randomList[UnityEngine.Random.Range(0, randomList.Length)];
                     unique.upgradeStat[0].value *= UnityEngine.Random.Range(0.5f, 1f);
                     unique.upgradeStat[1] = randomList[UnityEngine.Random.Range(0, randomList.Length)];
                     unique.upgradeStat[1].value *= UnityEngine.Random.Range(0.5f, 1f);
 
-                    items[index].uniqueData = unique;
+                    item.uniqueData = unique;
                 }
                 break;
         }
-        return items;
+        return item;
     }
 
     public void DeleteItem(int index)
