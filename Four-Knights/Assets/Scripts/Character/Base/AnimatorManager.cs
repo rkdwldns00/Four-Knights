@@ -25,6 +25,7 @@ public class AnimatorManager : MonoBehaviour
     [SerializeField] Transform LeftFoot;
     [SerializeField] Transform RightKnee;
     [SerializeField] Transform RightFoot;
+    [SerializeField] float footHeight;
     float ikKneeHeight;
     Vector3 targetFootPos;
 
@@ -128,8 +129,8 @@ public class AnimatorManager : MonoBehaviour
             RaycastHit rightFootHit;
             bool isLeftHit;
             bool isRightHit;
-            isLeftHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up * ikKneeHeight, Vector3.down, out leftFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
-            isRightHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.RightFoot) + Vector3.up * ikKneeHeight, Vector3.down, out rightFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
+            isLeftHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.LeftFoot) + new Vector3(0,ikKneeHeight,0), Vector3.down, out leftFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
+            isRightHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.RightFoot) + new Vector3(0, ikKneeHeight, 0), Vector3.down, out rightFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
             Debug.DrawLine(leftFootHit.point - Vector3.down * 0.1f, leftFootHit.point + Vector3.down * 0.1f, Color.red, 0.1f);
             Debug.DrawLine(rightFootHit.point - Vector3.down * 0.1f, rightFootHit.point + Vector3.down * 0.1f, Color.red, 0.1f);
 
@@ -141,18 +142,18 @@ public class AnimatorManager : MonoBehaviour
             }
             else
             {
-                if (ikTimer > 0.3f && ikTimer < 1)
+                if (ikTimer > 0.15f && ikTimer < 1)
                 {
                     ikTimer = 1;
-                    targetFootPos = new Vector3(0, ((leftFootHit.distance) + (rightFootHit.distance)) / 2 - ikKneeHeight, 0);
+                    targetFootPos = new Vector3(0, ((leftFootHit.distance) + (rightFootHit.distance)) / 2 - ikKneeHeight - footHeight, 0);
                 }
             }
             if (ikTimer >= 1)
             {
                 animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
                 animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
-                animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootHit.point);
-                animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootHit.point);
+                animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootHit.point + Vector3.up * footHeight);
+                animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootHit.point + Vector3.up * footHeight);
             }
 
         }
