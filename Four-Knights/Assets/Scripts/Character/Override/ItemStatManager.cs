@@ -12,17 +12,17 @@ public class ItemStatManager : StatManager
     public virtual Item[] Inventory
     {
         get { return inventory; }
-        protected set { inventory = value; Debug.Log("로컬 인벤토리 설정"); }
+        protected set { inventory = value; }
     }
 
-    protected Item weapon;
-    public Item Weapon
+    protected int weapon;
+    public int Weapon
     {
         set
         {
-            if (GameManager.ItemTable[value.id].ItemType == ItemType.Weapon)
+            if (GameManager.ItemTable[Inventory[value].id].ItemType == ItemType.Weapon)
             {
-                if (((WeaponStaticData)GameManager.ItemTable[value.id]).WeaponType == CharacterData.WeaponType)
+                if (((WeaponStaticData)GameManager.ItemTable[Inventory[value].id]).WeaponType == CharacterData.WeaponType)
                 {
                     weapon = value;
                 }
@@ -38,17 +38,17 @@ public class ItemStatManager : StatManager
         }
     }
 
-    protected Item[] accessories = new Item[5];
-    public Item[] Accessories
+    protected int[] accessories = new int[5];
+    public int[] Accessories
     {
         set
         {
             if (accessories.Length == value.Length)
             {
                 bool c = true;
-                foreach (Item item in value)
+                foreach (int item in value)
                 {
-                    if (GameManager.ItemTable[item.id].ItemType != ItemType.Accessories)
+                    if (GameManager.ItemTable[Inventory[item].id].ItemType != ItemType.Accessories)
                     {
                         c = false;
                         break;
@@ -73,32 +73,33 @@ public class ItemStatManager : StatManager
     protected override float FindUpgradeStat(UpgradeStatType type)
     {
         float value = base.FindUpgradeStat(type);
-        if (GameManager.ItemTable[weapon.id].ItemType == ItemType.Weapon)
+        if (GameManager.ItemTable[Inventory[weapon].id].ItemType == ItemType.Weapon)
         {
-            foreach (UpgradeStatWithValue upgradeStat in ((WeaponStaticData)GameManager.ItemTable[weapon.id]).UpgradeStat)
+            foreach (UpgradeStatWithValue upgradeStat in ((WeaponStaticData)GameManager.ItemTable[Inventory[weapon].id]).UpgradeStat)
             {
                 if (upgradeStat.UpgradeStatType == type)
                 {
-                    value += upgradeStat.value * ((WeaponUniqueData)weapon.uniqueData).enforce;
+                    value += upgradeStat.value * ((WeaponUniqueData)Inventory[weapon].uniqueData).enforce;
                 }
             }
         }
-        foreach (Item item in accessories)
+        foreach (int item in accessories)
         {
-            if (GameManager.ItemTable[item.id].ItemType == ItemType.Accessories)
+            if (GameManager.ItemTable[Inventory[item].id].ItemType == ItemType.Accessories)
             {
-                foreach (UpgradeStatWithValue upgradeStat in ((AccessoriesUniqueData)(item.uniqueData)).upgradeStat)
+                foreach (UpgradeStatWithValue upgradeStat in ((AccessoriesUniqueData)(Inventory[item].uniqueData)).upgradeStat)
                 {
-                    value += upgradeStat.value * ((AccessoriesUniqueData)(item.uniqueData)).enforce;
+                    value += upgradeStat.value * ((AccessoriesUniqueData)(Inventory[item].uniqueData)).enforce;
                 }
             }
         }
+
         return value;
     }
 
     public int AddItem(Item item)
     {
-        if (GameManager.ItemTable[item.id].ItemType != ItemType.Etc || FindItemInfo(item.id).id == 0)
+        if ((GameManager.ItemTable[item.id].ItemType != ItemType.Etc && GameManager.ItemTable[item.id].ItemType != ItemType.Usable) || FindItemInfo(item.id).id == 0)
         {
             int nullIndex = -1;
             for (int i = 0; i < Inventory.Length; i++)
@@ -127,14 +128,14 @@ public class ItemStatManager : StatManager
             {
                 Item[] items = Inventory;
                 items[nullIndex] = item;
-                items = CreateUniqueData(items,nullIndex);
+                items = CreateUniqueData(items, nullIndex);
                 Inventory = items;
                 return nullIndex;
             }
         }
         else
         {
-            for(int i = 0; i < Inventory.Length; i++)
+            for (int i = 0; i < Inventory.Length; i++)
             {
                 if (Inventory[i].id == item.id)
                 {
@@ -162,7 +163,7 @@ public class ItemStatManager : StatManager
         return -1;
     }
 
-    Item[] CreateUniqueData(Item[] items,int index)
+    Item[] CreateUniqueData(Item[] items, int index)
     {
         items[index] = CreateUniqueData(items[index]);
         return items;
@@ -207,16 +208,16 @@ public class ItemStatManager : StatManager
         if (index == Inventory.Length - 1)
         {
             int lastIndex = Inventory.Length - 1;
-            for(int i = Inventory.Length - 1; i > 0; i--)
+            for (int i = Inventory.Length - 1; i > 0; i--)
             {
-                if(Inventory[i].id != 0)
+                if (Inventory[i].id != 0)
                 {
                     break;
                 }
             }
 
             Item[] items = new Item[lastIndex];
-            for(int i = 0; i < lastIndex; i++)
+            for (int i = 0; i < lastIndex; i++)
             {
                 items[i] = Inventory[i];
             }
@@ -236,30 +237,30 @@ public class ItemStatManager : StatManager
 
     public Item FindItemInfo(int id)
     {
-        foreach(Item item in Inventory)
+        foreach (Item item in Inventory)
         {
-            if(item.id == id)
+            if (item.id == id)
             {
                 return item;
             }
         }
 
         Item nullItem = new Item();
-        if (GameManager.ItemTable[id].ItemType == ItemType.Etc)
+        if (GameManager.ItemTable[id].ItemType == ItemType.Etc && GameManager.ItemTable[id].ItemType == ItemType.Usable)
         {
             nullItem.uniqueData = new EtcUniqueData() { count = 0 };
         }
-        
+
         return nullItem;
     }
 
     public int FindEtcItemIndex(int id)
     {
-        if (GameManager.ItemTable[id].ItemType != ItemType.Etc)
+        if (GameManager.ItemTable[id].ItemType != ItemType.Etc && GameManager.ItemTable[id].ItemType != ItemType.Usable)
         {
             return -1;
         }
-        for(int i =0;i<Inventory.Length;i++)
+        for (int i = 0; i < Inventory.Length; i++)
         {
             if (Inventory[i].id == id)
             {
@@ -267,5 +268,27 @@ public class ItemStatManager : StatManager
             }
         }
         return -1;
+    }
+
+    public void UseItem(int index)
+    {
+        switch (GameManager.ItemTable[Inventory[index].id].ItemType)
+        {
+            case ItemType.Weapon:
+                break;
+            case ItemType.Accessories:
+                break;
+            case ItemType.Usable:
+                if (((EtcUniqueData)Inventory[index].uniqueData).count > 0)
+                {
+                    Item item = new Item();
+                    item.id = Inventory[index].id;
+                    item.uniqueData = new EtcUniqueData() { count = -1 };
+                    AddItem(item);
+
+                    //AddBuff(((UsableItemStaticData)GameManager.ItemTable[item.id]).Buff);
+                }
+                break;
+        }
     }
 }

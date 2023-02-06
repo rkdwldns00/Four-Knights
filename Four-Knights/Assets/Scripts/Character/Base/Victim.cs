@@ -29,8 +29,25 @@ public class Victim : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (statManager.GetBuff(BuffType.Barrier))
+        {
+            if (damage > statManager.GetBuffValue(BuffType.Barrier))
+            {
+                damage -= statManager.GetBuffValue(BuffType.Barrier);
+                statManager.ClearBuff(BuffType.Barrier);
+            }
+            else
+            {
+                statManager.SetBuffValue(BuffType.Barrier, statManager.GetBuffValue(BuffType.Barrier) - damage);
+                if(statManager.GetBuffValue(BuffType.Barrier) <= 0)
+                {
+                    statManager.ClearBuff(BuffType.Barrier);
+                }
+                damage = 0;
+            }
+        }
         float damageDown = (statManager.GetStat(StatType.Defence) / (statManager.GetStat(StatType.Defence) + (float)GetComponent<StatManager>().Level * 5f + 500f));
-        Hp -= (int)(damage * (1f-damageDown));
+        Hp -= (int)(damage * (1f - damageDown));
         if (Hp == 0)
         {
             Die();

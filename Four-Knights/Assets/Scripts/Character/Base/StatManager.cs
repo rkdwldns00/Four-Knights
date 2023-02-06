@@ -5,6 +5,9 @@ using UnityEngine;
 public class StatManager : MonoBehaviour
 {
     [SerializeField] CharacterData characterData;
+
+    BuffWithTime[] buffList = new BuffWithTime[System.Enum.GetValues(typeof(BuffType)).Length];
+
     protected CharacterData CharacterData
     {
         get { return characterData; }
@@ -15,9 +18,11 @@ public class StatManager : MonoBehaviour
     }
 
     int level;
-    public int Level {
+    public int Level
+    {
         get { return level; }
-        protected set { 
+        protected set
+        {
             level = value;
         }
     }
@@ -46,10 +51,29 @@ public class StatManager : MonoBehaviour
         }
     }
 
+    protected virtual void Awake()
+    {
+        for (int i = 0; i < buffList.Length; i++)
+        {
+            buffList[i] = new BuffWithTime { buff = (BuffType)i, time = 0, value = 0 };
+        }
+        //buffList[(int)BuffType.Barrier] = new BuffWithTime { buff = BuffType.Barrier, time = 5, value = 1000 };
+    }
+
+    protected virtual void Update()
+    {
+        for (int i = 0; i < buffList.Length; i++)
+        {
+            //Debug.Log(buffList[i].time);
+            buffList[i].time = Mathf.Max(buffList[i].time - Time.deltaTime, 0);
+        }
+    }
+
     public float GetStat(StatType stat)
     {
         CharacterStat value;
         value = CharacterData.CharacterStat;
+
         switch (stat)
         {
             case StatType.Attack:
@@ -72,13 +96,65 @@ public class StatManager : MonoBehaviour
 
     protected virtual float FindUpgradeStat(UpgradeStatType type)
     {
+        float value = 0;
+
+        //각종 단순 스탯버프 구현란
+        switch (type)
+        {
+
+        }
+
         foreach (UpgradeStatWithValue upgradeStat in CharacterData.CharacterStat.levelUpStat)
         {
             if (upgradeStat.UpgradeStatType == type)
             {
-                return upgradeStat.value * Level;
+                return upgradeStat.value * Level + value;
+            }
+        }
+        return value;
+    }
+
+    public bool GetBuff(BuffType buffType)
+    {
+        return buffList[(int)buffType].time > 0;
+    }
+
+    public int GetBuffValue(BuffType buffType)
+    {
+        if (GetBuff(buffType))
+        {
+            foreach (BuffWithTime buff in buffList)
+            {
+                if (buff.buff == buffType)
+                {
+                    return buff.value;
+                }
             }
         }
         return 0;
+    }
+
+    public void AddBuff(BuffWithTime buff)
+    {
+        if (buffList[(int)buff.buff].time < buff.time)
+        {
+            buffList[(int)buff.buff] = buff;
+        }
+    }
+
+    public void ClearBuff(BuffType buff)
+    {
+        buffList[(int)buff] = new BuffWithTime { buff = buff, value = 0, time = 0 };
+    }
+
+    public void SetBuffValue(BuffType buffType, int value)
+    {
+        foreach (BuffWithTime buff in buffList)
+        {
+            if (buff.buff == buffType)
+            {
+                buffList[(int)buffType].value = value;
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ public class InventoryMonitoring : MonoBehaviour
             switch (GameManager.ItemTable[player.Inventory[j].id].ItemType)
             {
                 case ItemType.Etc:
+                case ItemType.Usable:
                     texts[j] = texts[j] + ", °³¼ö : " + ((EtcUniqueData)player.Inventory[j].uniqueData).count;
                     break;
                 case ItemType.Accessories:

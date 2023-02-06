@@ -8,5 +8,6 @@ public enum ItemType
 {
     Weapon,
     Accessories,
-    Etc
+    Etc,
+    Usable
 }
