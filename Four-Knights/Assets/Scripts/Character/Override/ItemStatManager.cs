@@ -38,22 +38,36 @@ public class ItemStatManager : StatManager
         }
     }
 
-    protected int[] accessories = new int[5];
+    int[] accessories = new int[5] {-1,-1,-1,-1,-1};
     public int[] Accessories
     {
-        set
+        protected set
         {
             if (accessories.Length == value.Length)
             {
                 bool c = true;
                 foreach (int item in value)
                 {
-                    if (GameManager.ItemTable[Inventory[item].id].ItemType != ItemType.Accessories)
+                    if (item != -1 && GameManager.ItemTable[Inventory[item].id].ItemType != ItemType.Accessories)
                     {
                         c = false;
                         break;
                     }
                 }
+                List<int> list = new List<int>();
+                foreach(int item in value)
+                {
+                    if (item != -1 && list.Contains(Inventory[item].id))
+                    {
+                        c = false;
+                        break;
+                    }
+                    if (item != -1)
+                    {
+                        list.Add(Inventory[item].id);
+                    }
+                }
+
                 if (c)
                 {
                     accessories = value;
@@ -68,6 +82,7 @@ public class ItemStatManager : StatManager
                 Debug.LogError("성유물칸의 개수가 맞지않습니다!");
             }
         }
+        get { return accessories; }
     }
 
     protected override float FindUpgradeStat(UpgradeStatType type)
@@ -83,9 +98,9 @@ public class ItemStatManager : StatManager
                 }
             }
         }
-        foreach (int item in accessories)
+        foreach (int item in Accessories)
         {
-            if (GameManager.ItemTable[Inventory[item].id].ItemType == ItemType.Accessories)
+            if (item != -1 && GameManager.ItemTable[Inventory[item].id].ItemType == ItemType.Accessories)
             {
                 foreach (UpgradeStatWithValue upgradeStat in ((AccessoriesUniqueData)(Inventory[item].uniqueData)).upgradeStat)
                 {
@@ -275,6 +290,7 @@ public class ItemStatManager : StatManager
         switch (GameManager.ItemTable[Inventory[index].id].ItemType)
         {
             case ItemType.Weapon:
+                Weapon = index;
                 break;
             case ItemType.Accessories:
                 break;
@@ -289,6 +305,34 @@ public class ItemStatManager : StatManager
                     //AddBuff(((UsableItemStaticData)GameManager.ItemTable[item.id]).Buff);
                 }
                 break;
+        }
+    }
+
+    public void equipAccessories(int itemIndex,int equipIndex)
+    {
+        int[] ints = Accessories;
+        ints[equipIndex] = itemIndex;
+        Accessories = ints;
+    }
+
+    public bool IsSetSkillActive(SetSkillType set,int request)
+    {
+        int setSum = 0;
+        foreach(int item in Accessories)
+        {
+            if(item != -1 && ((AccssoriesStaticData)GameManager.ItemTable[Inventory[item].id]).Set == set)
+            {
+                setSum += 1;
+            }
+        }
+
+        if(setSum >= request)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

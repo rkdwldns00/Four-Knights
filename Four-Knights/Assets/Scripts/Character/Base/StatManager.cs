@@ -57,14 +57,12 @@ public class StatManager : MonoBehaviour
         {
             buffList[i] = new BuffWithTime { buff = (BuffType)i, time = 0, value = 0 };
         }
-        //buffList[(int)BuffType.Barrier] = new BuffWithTime { buff = BuffType.Barrier, time = 5, value = 1000 };
     }
 
     protected virtual void Update()
     {
         for (int i = 0; i < buffList.Length; i++)
         {
-            //Debug.Log(buffList[i].time);
             buffList[i].time = Mathf.Max(buffList[i].time - Time.deltaTime, 0);
         }
     }

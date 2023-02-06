@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2160e666f297daa49bca5b759468074d, type: 3}
+  m_Name: Accssorie Data
+  m_EditorClassIdentifier: 
+  itemName: "\uD14C\uC2A4\uD2B8\uC7A5\uC2E0\uAD6C"
+  sprite: {fileID: 0}
+  model: {fileID: 0}
+  maxUpgradeStatList:
+  - UpgradeStatType: 0
+    value: 100
+  set: 0

@@ -15,4 +15,10 @@ public class AccssoriesStaticData : ItemStaticData
     {
         get { return maxUpgradeStatList; }
     }
+
+    [SerializeField] SetSkillType set;
+    public SetSkillType Set
+    {
+        get { return set; }
+    }
 }
