@@ -36,9 +36,18 @@ public class ItemStatManager : StatManager
                 Debug.LogError("무기가아닌 장비를 장착시도하였습니다.");
             }
         }
+        protected get
+        {
+            return weapon;
+        }
     }
 
-    int[] accessories = new int[5] {-1,-1,-1,-1,-1};
+    public int WeaponID
+    {
+        get { return Inventory[Weapon].id; }
+    }
+
+    int[] accessories = new int[5] { -1, -1, -1, -1, -1 };
     public int[] Accessories
     {
         protected set
@@ -55,7 +64,7 @@ public class ItemStatManager : StatManager
                     }
                 }
                 List<int> list = new List<int>();
-                foreach(int item in value)
+                foreach (int item in value)
                 {
                     if (item != -1 && list.Contains(Inventory[item].id))
                     {
@@ -88,13 +97,13 @@ public class ItemStatManager : StatManager
     protected override float FindUpgradeStat(UpgradeStatType type)
     {
         float value = base.FindUpgradeStat(type);
-        if (GameManager.ItemTable[Inventory[weapon].id].ItemType == ItemType.Weapon)
+        if (GameManager.ItemTable[Inventory[Weapon].id].ItemType == ItemType.Weapon)
         {
-            foreach (UpgradeStatWithValue upgradeStat in ((WeaponStaticData)GameManager.ItemTable[Inventory[weapon].id]).UpgradeStat)
+            foreach (UpgradeStatWithValue upgradeStat in ((WeaponStaticData)GameManager.ItemTable[Inventory[Weapon].id]).UpgradeStat)
             {
                 if (upgradeStat.UpgradeStatType == type)
                 {
-                    value += upgradeStat.value * ((WeaponUniqueData)Inventory[weapon].uniqueData).enforce;
+                    value += upgradeStat.value * ((WeaponUniqueData)Inventory[Weapon].uniqueData).enforce;
                 }
             }
         }
@@ -308,25 +317,25 @@ public class ItemStatManager : StatManager
         }
     }
 
-    public void equipAccessories(int itemIndex,int equipIndex)
+    public void equipAccessories(int itemIndex, int equipIndex)
     {
         int[] ints = Accessories;
         ints[equipIndex] = itemIndex;
         Accessories = ints;
     }
 
-    public bool IsSetSkillActive(SetSkillType set,int request)
+    public bool IsSetSkillActive(SetSkillType set, int request)
     {
         int setSum = 0;
-        foreach(int item in Accessories)
+        foreach (int item in Accessories)
         {
-            if(item != -1 && ((AccssoriesStaticData)GameManager.ItemTable[Inventory[item].id]).Set == set)
+            if (item != -1 && ((AccssoriesStaticData)GameManager.ItemTable[Inventory[item].id]).Set == set)
             {
                 setSum += 1;
             }
         }
 
-        if(setSum >= request)
+        if (setSum >= request)
         {
             return true;
         }
