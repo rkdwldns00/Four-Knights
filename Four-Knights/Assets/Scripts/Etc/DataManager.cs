@@ -89,12 +89,15 @@ public class DataManager : MonoBehaviour
             switch (GameManager.ItemTable[inventory[i].id].ItemType)
             {
                 case ItemType.Weapon:
+                    data.inventory[i].uniqueIndex = weaponIndex;
                     weaponIndex += 1;
                     break;
                 case ItemType.Accessories:
+                    data.inventory[i].uniqueIndex = accessoriesIndex;
                     accessoriesIndex += 1;
                     break;
                 case ItemType.Etc:
+                    data.inventory[i].uniqueIndex = etcIndex;
                     etcIndex += 1;
                     break;
             }
