@@ -155,4 +155,9 @@ public class StatManager : MonoBehaviour
             }
         }
     }
+
+    public virtual bool IsSetSkillActive(SetSkillType set, int request)
+    {
+        return false;
+    }
 }

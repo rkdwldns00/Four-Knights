@@ -324,7 +324,7 @@ public class ItemStatManager : StatManager
         Accessories = ints;
     }
 
-    public bool IsSetSkillActive(SetSkillType set, int request)
+    public override bool IsSetSkillActive(SetSkillType set, int request)
     {
         int setSum = 0;
         foreach (int item in Accessories)
