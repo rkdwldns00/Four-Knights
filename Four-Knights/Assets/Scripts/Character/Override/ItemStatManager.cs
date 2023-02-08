@@ -368,7 +368,7 @@ public class ItemStatManager : StatManager
             WeaponUniqueData uniqueData = (WeaponUniqueData)items[equipIndex].uniqueData;
             switch (items[ingredientIndex].id)
             {
-                
+
             }
         }
         else if (equipType == ItemType.Accessories)
@@ -404,5 +404,38 @@ public class ItemStatManager : StatManager
             }
         }
         return originExp;
+    }
+
+    public void UpgradeAscend(int index)
+    {
+        int ingredientID = -1;
+        switch (GameManager.ItemTable[Inventory[index].id].ItemType)
+        {
+            case ItemType.Weapon:
+                ingredientID = ((WeaponStaticData)GameManager.ItemTable[Inventory[index].id]).AscendIngredientID;
+                break;
+            case ItemType.Accessories:
+                ingredientID = ((AccssoriesStaticData)GameManager.ItemTable[Inventory[index].id]).AscendIngredientID;
+                break;
+        }
+        if (FindEtcItemIndex(ingredientID) == -1)
+        {
+            return;
+        }
+        AddItem(new Item { id = ingredientID, uniqueData = new EtcUniqueData { count = -1 } });
+        Item[] items = Inventory;
+
+        switch (GameManager.ItemTable[items[index].id].ItemType)
+        {
+            case ItemType.Weapon:
+                WeaponUniqueData weaponUnique = (WeaponUniqueData)items[index].uniqueData;
+                weaponUnique.ascend += 1;
+                break;
+            case ItemType.Accessories:
+                AccessoriesUniqueData accessoriesUnique = (AccessoriesUniqueData)items[index].uniqueData;
+                accessoriesUnique.ascend += 1;
+                break;
+        }
+        Inventory = items;
     }
 }

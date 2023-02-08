@@ -27,4 +27,10 @@ public class AccssoriesStaticData : ItemStaticData
     {
         get { return set; }
     }
+
+    [SerializeField] int ascendIngredientID;
+    public int AscendIngredientID
+    {
+        get { return ascendIngredientID; }
+    }
 }
