@@ -7,4 +7,6 @@ using UnityEngine;
 public struct WeaponUniqueData : ItemUniqueData
 {
     public int enforce;
+    public int ascend;
+    public int exp;
 }

@@ -10,6 +10,12 @@ public class AccssoriesStaticData : ItemStaticData
         get { return ItemType.Accessories; }
     }
 
+    [SerializeField] int exp;
+    public int Exp
+    {
+        get { return exp; }
+    }
+
     [SerializeField] UpgradeStatWithValue[] maxUpgradeStatList;
     public UpgradeStatWithValue[] MaxUpgradeStatList
     {

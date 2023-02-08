@@ -97,7 +97,7 @@ public class ItemStatManager : StatManager
     protected override float FindUpgradeStat(UpgradeStatType type)
     {
         float value = base.FindUpgradeStat(type);
-        if (GameManager.ItemTable[Inventory[Weapon].id].ItemType == ItemType.Weapon)
+        if (Weapon != -1 && Inventory.Length > Weapon && GameManager.ItemTable[Inventory[Weapon].id].ItemType == ItemType.Weapon)
         {
             foreach (UpgradeStatWithValue upgradeStat in ((WeaponStaticData)GameManager.ItemTable[Inventory[Weapon].id]).UpgradeStat)
             {
@@ -212,7 +212,7 @@ public class ItemStatManager : StatManager
             case ItemType.Accessories:
                 if (item.uniqueData == null || ((AccessoriesUniqueData)item.uniqueData).enforce == 0)
                 {
-                    AccessoriesUniqueData unique = new AccessoriesUniqueData() { enforce = 1 };
+                    AccessoriesUniqueData unique = new AccessoriesUniqueData() { enforce = 1, exp = ((AccssoriesStaticData)GameManager.ItemTable[item.id]).Exp / 4, ascend = 1 };
                     UpgradeStatWithValue[] randomList = ((AccssoriesStaticData)GameManager.ItemTable[item.id]).MaxUpgradeStatList;
                     unique.upgradeStat = new UpgradeStatWithValue[2];
                     unique.upgradeStat[0] = randomList[UnityEngine.Random.Range(0, randomList.Length)];
@@ -343,5 +343,63 @@ public class ItemStatManager : StatManager
         {
             return false;
         }
+    }
+
+    public void EnforceEquip(int equipIndex, int ingredientIndex)
+    {
+        ItemType equipType = GameManager.ItemTable[Inventory[equipIndex].id].ItemType;
+        ItemType ingredientType = GameManager.ItemTable[Inventory[ingredientIndex].id].ItemType;
+        if (!(equipType == ItemType.Weapon || equipType == ItemType.Accessories))
+        {
+            return;
+        }
+        if (ingredientType != ItemType.Etc && ingredientType != ItemType.Accessories)
+        {
+            return;
+        }
+
+        if (equipType == ItemType.Weapon)
+        {
+            if (ingredientType == ItemType.Accessories)
+            {
+                return;
+            }
+
+
+        }
+        else if (equipType == ItemType.Accessories)
+        {
+            Item[] items = Inventory;
+            AccessoriesUniqueData uniqueData = (AccessoriesUniqueData)items[equipIndex].uniqueData;
+            uniqueData.exp += ((AccessoriesUniqueData)items[ingredientIndex].uniqueData).exp;
+
+            int needExp = GetNeedExp(((AccssoriesStaticData)GameManager.ItemTable[Inventory[equipIndex].id]).Exp, uniqueData.enforce);
+            while (uniqueData.exp >= needExp && uniqueData.enforce < uniqueData.ascend * 10)
+            {
+                uniqueData.exp -= needExp;
+                uniqueData.enforce += 1;
+                needExp = GetNeedExp(((AccssoriesStaticData)GameManager.ItemTable[Inventory[equipIndex].id]).Exp, uniqueData.enforce);
+            }
+
+            items[equipIndex].uniqueData = uniqueData;
+            Inventory = items;
+            DeleteItem(ingredientIndex);
+        }
+    }
+
+    int GetNeedExp(int originExp, int enforce)
+    {
+        for (int i = 1; i < enforce; i++)
+        {
+            if (i % 10 == 0)
+            {
+                originExp = (int)((float)originExp * 1.2f);
+            }
+            else
+            {
+                originExp = (int)((float)originExp * 1.05f);
+            }
+        }
+        return originExp;
     }
 }

@@ -8,4 +8,6 @@ public struct AccessoriesUniqueData : ItemUniqueData
 {
     public int enforce;
     public UpgradeStatWithValue[] upgradeStat;
+    public int ascend;
+    public int exp;
 }
