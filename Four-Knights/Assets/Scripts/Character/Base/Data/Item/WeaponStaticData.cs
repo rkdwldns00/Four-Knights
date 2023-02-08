@@ -31,4 +31,10 @@ public class WeaponStaticData : ItemStaticData
     {
         get { return weaponType; }
     }
+
+    [SerializeField] int exp;
+    public int Exp
+    {
+        get { return exp; }
+    }
 }

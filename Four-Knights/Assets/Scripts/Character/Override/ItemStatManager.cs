@@ -358,18 +358,21 @@ public class ItemStatManager : StatManager
             return;
         }
 
+        Item[] items = Inventory;
         if (equipType == ItemType.Weapon)
         {
             if (ingredientType == ItemType.Accessories)
             {
                 return;
             }
-
-
+            WeaponUniqueData uniqueData = (WeaponUniqueData)items[equipIndex].uniqueData;
+            switch (items[ingredientIndex].id)
+            {
+                
+            }
         }
         else if (equipType == ItemType.Accessories)
         {
-            Item[] items = Inventory;
             AccessoriesUniqueData uniqueData = (AccessoriesUniqueData)items[equipIndex].uniqueData;
             uniqueData.exp += ((AccessoriesUniqueData)items[ingredientIndex].uniqueData).exp;
 
