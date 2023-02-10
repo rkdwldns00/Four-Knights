@@ -123,6 +123,10 @@ public class ItemStatManager : StatManager
 
     public int AddItem(Item item)
     {
+        if (item.id == 0)
+        {
+            return -1;
+        }
         if ((GameManager.ItemTable[item.id].ItemType != ItemType.Etc && GameManager.ItemTable[item.id].ItemType != ItemType.Usable) || FindItemInfo(item.id).id == 0)
         {
             int nullIndex = -1;
@@ -187,6 +191,11 @@ public class ItemStatManager : StatManager
         return -1;
     }
 
+    public int AddItem(int id)
+    {
+        return AddItem(new Item { id = id });
+    }
+
     Item[] CreateUniqueData(Item[] items, int index)
     {
         items[index] = CreateUniqueData(items[index]);
@@ -212,7 +221,7 @@ public class ItemStatManager : StatManager
             case ItemType.Accessories:
                 if (item.uniqueData == null || ((AccessoriesUniqueData)item.uniqueData).enforce == 0)
                 {
-                    AccessoriesUniqueData unique = new AccessoriesUniqueData() { enforce = 1, exp = ((AccssoriesStaticData)GameManager.ItemTable[item.id]).Exp / 4, ascend = 1 };
+                    AccessoriesUniqueData unique = new AccessoriesUniqueData { enforce = 1, exp = ((AccssoriesStaticData)GameManager.ItemTable[item.id]).Exp / 4, ascend = 1 };
                     UpgradeStatWithValue[] randomList = ((AccssoriesStaticData)GameManager.ItemTable[item.id]).MaxUpgradeStatList;
                     unique.upgradeStat = new UpgradeStatWithValue[2];
                     unique.upgradeStat[0] = randomList[UnityEngine.Random.Range(0, randomList.Length)];
@@ -317,7 +326,7 @@ public class ItemStatManager : StatManager
         }
     }
 
-    public void equipAccessories(int itemIndex, int equipIndex)
+    public void EquipAccessories(int itemIndex, int equipIndex)
     {
         int[] ints = Accessories;
         ints[equipIndex] = itemIndex;
