@@ -25,5 +25,9 @@ public class Test : MonoBehaviour
         {
             item.AddItem(new Item { id = 1, uniqueData = new EtcUniqueData { count = -1 } });
         }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            FindObjectOfType<Shop>().RequestTransaction(item, 0, 1);
+        }
     }
 }

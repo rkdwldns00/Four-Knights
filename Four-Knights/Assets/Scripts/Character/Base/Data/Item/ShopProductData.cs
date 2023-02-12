@@ -10,5 +10,4 @@ public struct ShopProductData
     public int costCount;
     public int productId;
     public int productCount;
-    public int chance;
 }

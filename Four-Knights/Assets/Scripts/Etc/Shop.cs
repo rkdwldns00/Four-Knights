@@ -9,7 +9,7 @@ public class Shop : MonoBehaviour
 
     private void Start()
     {
-        if(shopData == null)
+        if (shopData == null)
         {
             Debug.LogError("상점데이터가 없습니다.");
         }
@@ -24,7 +24,7 @@ public class Shop : MonoBehaviour
 
     public bool CheckCanTransaction(ItemStatManager eventPlayer, int index, int count)
     {
-        if(eventPlayer.FindEtcItemIndex(index) == -1)
+        if (eventPlayer.FindEtcItemIndex(index) == -1)
         {
             return false;
         }
@@ -33,12 +33,16 @@ public class Shop : MonoBehaviour
 
     public void RequestTransaction(ItemStatManager eventPlayer, int index, int count)
     {
-        if (count > shopData.Products[index].chance)
+        int have;
+        if (eventPlayer.FindItemInfo(shopData.Products[index].costId).id == 0)
         {
-            count = shopData.Products[index].chance;
+            have = 0;
+        }
+        else
+        {
+            have = ((EtcUniqueData)eventPlayer.FindItemInfo(shopData.Products[index].costId).uniqueData).count;
         }
 
-        int have = ((EtcUniqueData)eventPlayer.FindItemInfo(shopData.Products[index].costId).uniqueData).count;
         int cost = shopData.Products[index].costCount * count;
         if (have < cost)
         {
