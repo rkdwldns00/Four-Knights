@@ -50,6 +50,17 @@ public class Shop : MonoBehaviour
         }
 
         eventPlayer.AddItem(new Item { id = shopData.Products[index].costId, uniqueData = new EtcUniqueData { count = -cost } });
-        eventPlayer.AddItem(new Item { id = shopData.Products[index].productId, uniqueData = new EtcUniqueData { count = shopData.Products[index].productCount * count } });
+        ItemType type = GameManager.ItemTable[shopData.Products[index].productId].ItemType;
+        if (type == ItemType.Etc || type == ItemType.Usable)
+        {
+            eventPlayer.AddItem(new Item { id = shopData.Products[index].productId, uniqueData = new EtcUniqueData { count = shopData.Products[index].productCount * count } });
+        }
+        else
+        {
+            for (int i = 0; i < shopData.Products[index].productCount; i++)
+            {
+                eventPlayer.AddItem(shopData.Products[index].productId);
+            }
+        }
     }
 }

@@ -30,8 +30,8 @@ public class InventoryMonitoring : MonoBehaviour
                 case ItemType.Accessories:
                     texts[j] = texts[j] + ", ∞≠»≠ : " + ((AccessoriesUniqueData)player.Inventory[j].uniqueData).enforce;
                     texts[j] = texts[j] + ", ∞Ê«Ëƒ° : " + ((AccessoriesUniqueData)player.Inventory[j].uniqueData).exp;
-                    texts[j] = texts[j] + ", Ω∫≈»1 : (" + ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[0].UpgradeStatType+", "+ ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[0].UpgradeStatType;
-                    texts[j] = texts[j] + ", Ω∫≈»2 : (" + ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[1].UpgradeStatType+", "+ ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[1].UpgradeStatType;
+                    texts[j] = texts[j] + ", Ω∫≈»1 : (" + ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[0].UpgradeStatType+", "+ ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[0].value;
+                    texts[j] = texts[j] + ", Ω∫≈»2 : (" + ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[1].UpgradeStatType+", "+ ((AccessoriesUniqueData)player.Inventory[j].uniqueData).upgradeStat[1].value;
                     break;
                 case ItemType.Weapon:
                     texts[j] = texts[j] + ", ∞≠»≠ : " + ((WeaponUniqueData)player.Inventory[j].uniqueData).enforce;
