@@ -31,7 +31,7 @@ public class Shop : MonoBehaviour
         return ((EtcUniqueData)eventPlayer.FindItemInfo(shopData.Products[index].costId).uniqueData).count * count >= shopData.Products[index].costCount * count;
     }
 
-    public void RequestTransaction(ItemStatManager eventPlayer, int index, int count)
+    protected void RequestTransaction(ItemStatManager eventPlayer, int index, int count)
     {
         int have;
         if (eventPlayer.FindItemInfo(shopData.Products[index].costId).id == 0)
