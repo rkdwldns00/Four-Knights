@@ -4,37 +4,37 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 
-public class RespawnGimmick : Interactable
+public class RespawnGimmick : SaveGimmick
 {
     [SerializeField] long respawnSecond;
     protected long SaveData
     {
         get
         {
-            if (!DataManager.CheckGameData(GimmikId))
+            if (!DataManager.CheckGameData(GimmickId))
             {
                 return NowTick;
             }
-            return DataManager.LoadGameData<RespawnSaveData>(GimmikId).tick;
+            return DataManager.LoadGameData<RespawnSaveData>(GimmickId).tick;
         }
         set {
-            RespawnSaveData data = new RespawnSaveData();
+            RespawnSaveData data = new();
             data.tick = value;
-            DataManager.SaveGameData(GimmikId, data);
+            DataManager.SaveGameData(GimmickId, data);
         }
     }
 
-    protected string GimmikId { get { return "Gimmicks/RespawnGimmick" + GetInstanceID(); } }
+    protected override string GimmickId { get { return "Gimmicks/RespawnGimmick" + GetInstanceID(); } }
     long NowTick { get { return DateTime.Now.Ticks / 10000000; } }
 
     protected virtual void Start()
     {
-        RespawnCheck();
+        //SpawnCheck();
     }
 
-    public void RespawnCheck()
+    public override void SpawnCheck()
     {
-        if((DataManager.CheckGameData(GimmikId) && SaveData + respawnSecond > NowTick))
+        if((DataManager.CheckGameData(GimmickId) && SaveData + respawnSecond > NowTick))
         {
             IsActive = false;
         }
@@ -46,8 +46,7 @@ public class RespawnGimmick : Interactable
 
     public override void Interaction(GameObject eventPlayer)
     {
-        Debug.Log("ddd");
         SaveData = NowTick;
-        RespawnCheck();
+        SpawnCheck();
     }
 }

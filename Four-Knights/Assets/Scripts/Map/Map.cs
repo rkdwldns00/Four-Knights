@@ -7,9 +7,9 @@ public class Map : MonoBehaviour
     // Start is called before the first frame update
     private void OnEnable()
     {
-        foreach(RespawnGimmick gimmik in GetComponentsInChildren<RespawnGimmick>())
+        foreach(SaveGimmick gimmik in GetComponentsInChildren<SaveGimmick>())
         {
-            gimmik.RespawnCheck();
+            gimmik.SpawnCheck();
         }
     }
 
