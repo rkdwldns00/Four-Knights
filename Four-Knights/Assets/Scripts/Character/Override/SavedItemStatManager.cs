@@ -16,7 +16,7 @@ public class SavedItemStatManager : ItemStatManager
 
     public Item[] GetInventory()
     {
-        Data data = DataManager.LoadGameData<Data>("Inventory");
+        InventorySaveData data = DataManager.LoadGameData<InventorySaveData>("Inventory");
         Item[] inventory = new Item[data.inventory.Length];
         for (int i = 0; i < inventory.Length; i++)
         {
@@ -40,7 +40,7 @@ public class SavedItemStatManager : ItemStatManager
 
     public void SetInventoryData(Item[] inventory)
     {
-        Data data = new Data();
+        InventorySaveData data = new InventorySaveData();
         data.inventory = new ItemWithUniqueIndex[inventory.Length];
         int weaponIndex = 0;
         int accessoriesIndex = 0;

@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Interactable : MonoBehaviour
 {
     [SerializeField] protected string showedName;
-    GameObject activeSymbol;
+    [SerializeField]GameObject activeSymbol;
     protected GameObject ActiveSymbol
     {
         get { return activeSymbol; }

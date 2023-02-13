@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class DataManager
 {
-    public static T LoadGameData<T>(string fileName) where T : Data
+    public static bool CheckGameData(string fileName)
     {
         string filePath = Application.persistentDataPath + "/" + fileName + ".json";
-        T data = (T)new Data();
+        return File.Exists(filePath);
+    }
+
+    public static T LoadGameData<T>(string fileName) where T : new()
+    {
+        string filePath = Application.persistentDataPath + "/" + fileName + ".json";
+        T data = new();
         if(File.Exists(filePath))
         {
             string fromJsonData = File.ReadAllText(filePath);
@@ -16,7 +22,7 @@ public class DataManager
         return data;
     }
 
-    public static void SaveGameData<T>(string fileName,T data)where T : Data
+    public static void SaveGameData<T>(string fileName,T data)
     {
         string filePath = Application.persistentDataPath + "/" + fileName + ".json";
         string toJsonData = JsonUtility.ToJson(data,true);
