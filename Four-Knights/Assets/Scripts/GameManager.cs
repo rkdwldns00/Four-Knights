@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     static ItemTable itemTable;
     [SerializeField] ItemTable UsedItemTable;
+    [SerializeField] List<GameObject> mapPrefabList;
+    [SerializeField] GameObject playerPrefab;
+
+    GameObject currentMapPrefab;
 
     public static ItemStaticData[] ItemTable
     {
@@ -36,11 +41,36 @@ public class GameManager : MonoBehaviour
             Debug.LogError("GameManager가 여러개입니다!");
             Destroy(this);
         }
+
+        ChangeMap(0);
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    GameObject FindMapWithId(int id)
+    {
+        foreach(GameObject map in mapPrefabList)
+        {
+            if(map.GetComponent<Map>().MapId == id)
+            {
+                return map;
+            }
+        }
+        return null;
+    }
+
+    public void ChangeMap(int id)
+    {
+        if(currentMapPrefab != null)
+        {
+            Destroy(currentMapPrefab);
+        }
+        currentMapPrefab = Instantiate(FindMapWithId(id),Vector3.zero,Quaternion.identity);
+        GameObject player = Instantiate(playerPrefab, currentMapPrefab.transform);
+        player.transform.localPosition = currentMapPrefab.GetComponent<Map>().SpawnPos;
     }
 }

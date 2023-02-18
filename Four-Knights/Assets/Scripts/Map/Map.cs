@@ -5,6 +5,21 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    [SerializeField] Transform spawnPoint;
+    public Vector3 SpawnPos {
+        get {
+            if (spawnPoint == null)
+            {
+                return Vector3.zero;
+            }
+            else
+            {
+                return spawnPoint.position;
+            }
+        } 
+    }
+
+
     [SerializeField] int mapId;
     public int MapId { get { return mapId; } }
 

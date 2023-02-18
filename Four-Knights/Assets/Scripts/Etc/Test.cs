@@ -16,7 +16,7 @@ public class Test : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G))
         {
-            GetComponent<ItemStatManager>().AddItem(1);
+            GameManager.instance.ChangeMap(0);
         }
     }
 }
