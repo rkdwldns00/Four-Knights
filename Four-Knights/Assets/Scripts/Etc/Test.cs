@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
+    public GameObject prefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,10 @@ public class Test : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.G))
+        {
+            GameManager.instance.StartDungeon(prefab);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
         {
             GameManager.instance.ChangeMap(0);
         }

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
+    GameObject currentDungeon;
+
     [SerializeField] Transform spawnPoint;
     public Vector3 SpawnPos {
         get {
@@ -16,7 +18,7 @@ public class Map : MonoBehaviour
             {
                 return spawnPoint.position;
             }
-        } 
+        }
     }
 
 
@@ -39,7 +41,7 @@ public class Map : MonoBehaviour
         {
             if (list.Contains(gimmick.Id))
             {
-                Debug.LogError("±â¹ÍID Áßº¹ ¸Ê : "+gameObject.name);
+                Debug.LogError("±â¹ÍID Áßº¹ ¸Ê : " + gameObject.name);
             }
             else
             {
@@ -70,7 +72,7 @@ public class Map : MonoBehaviour
                 list.Add(gimmick.Id);
             }
         }
-        for(int i = 0; i < list.Max(); i++)
+        for (int i = 0; i < list.Max(); i++)
         {
             if (!list.Contains(i))
             {

@@ -69,8 +69,29 @@ public class GameManager : MonoBehaviour
         {
             Destroy(currentMapPrefab);
         }
+        if(FindObjectOfType<Dungeon>()!= null)
+        {
+            Destroy(FindObjectOfType<Dungeon>().gameObject);
+        }
+
         currentMapPrefab = Instantiate(FindMapWithId(id),Vector3.zero,Quaternion.identity);
         GameObject player = Instantiate(playerPrefab, currentMapPrefab.transform);
         player.transform.localPosition = currentMapPrefab.GetComponent<Map>().SpawnPos;
+    }
+
+    public void StartDungeon(GameObject prefab)
+    {
+        if (FindObjectOfType<Dungeon>() != null)
+        {
+            return;
+        }
+
+        GameObject map = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        map.GetComponent<Dungeon>().originMap = currentMapPrefab;
+
+        currentMapPrefab.SetActive(false);
+
+        GameObject player = Instantiate(playerPrefab, map.transform);
+        player.transform.position = map.GetComponent<Dungeon>().SpawnPos;
     }
 }
