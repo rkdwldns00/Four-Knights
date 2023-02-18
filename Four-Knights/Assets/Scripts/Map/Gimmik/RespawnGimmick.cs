@@ -24,11 +24,12 @@ public class RespawnGimmick : SaveGimmick
         }
     }
 
-    protected override string GimmickId { get { return "Gimmicks/RespawnGimmick" + GetInstanceID(); } }
+    //protected override string GimmickId { get { return "Gimmicks/RespawnGimmick" + GetInstanceID(); } }
     long NowTick { get { return DateTime.Now.Ticks / 10000000; } }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         //SpawnCheck();
     }
 

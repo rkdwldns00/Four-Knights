@@ -21,11 +21,11 @@ public class OnceGimmick : SaveGimmick
             DataManager.SaveGameData(GimmickId, data);
         }
     }
-
+/*
     protected override string GimmickId
     {
         get { return "Gimmicks/OnceGimmick" + GetInstanceID(); }
-    }
+    }*/
 
     public override void Interaction(GameObject eventPlayer)
     {
