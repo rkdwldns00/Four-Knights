@@ -31,15 +31,16 @@ public class Victim : MonoBehaviour
     {
         if (statManager.GetBuff(BuffType.Barrier))
         {
-            if (damage > statManager.GetBuffValue(BuffType.Barrier))
+            int barrier = (int)statManager.GetBuffValue(BuffType.Barrier);
+            if (damage > barrier)
             {
-                damage -= statManager.GetBuffValue(BuffType.Barrier);
+                damage -= barrier;
                 statManager.ClearBuff(BuffType.Barrier);
             }
             else
             {
-                statManager.SetBuffValue(BuffType.Barrier, statManager.GetBuffValue(BuffType.Barrier) - damage);
-                if(statManager.GetBuffValue(BuffType.Barrier) <= 0)
+                statManager.SetBuffValue(BuffType.Barrier, barrier - damage);
+                if(barrier <= 0)
                 {
                     statManager.ClearBuff(BuffType.Barrier);
                 }

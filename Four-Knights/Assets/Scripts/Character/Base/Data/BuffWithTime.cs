@@ -8,5 +8,5 @@ public struct BuffWithTime
 {
     public BuffType buff;
     public float time;
-    public int value;
+    public object value;
 }

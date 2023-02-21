@@ -117,7 +117,7 @@ public class StatManager : MonoBehaviour
         return buffList[(int)buffType].time > 0;
     }
 
-    public int GetBuffValue(BuffType buffType)
+    public object GetBuffValue(BuffType buffType)
     {
         if (GetBuff(buffType))
         {
@@ -142,10 +142,10 @@ public class StatManager : MonoBehaviour
 
     public void ClearBuff(BuffType buff)
     {
-        buffList[(int)buff] = new BuffWithTime { buff = buff, value = 0, time = 0 };
+        buffList[(int)buff] = new BuffWithTime { buff = buff, value = null, time = 0 };
     }
 
-    public void SetBuffValue(BuffType buffType, int value)
+    public void SetBuffValue(BuffType buffType, object value)
     {
         foreach (BuffWithTime buff in buffList)
         {
