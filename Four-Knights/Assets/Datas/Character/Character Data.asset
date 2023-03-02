@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: "\uD0C0\uB974\uD0C8\uB9AC\uC544"
   characterStat:
     health: 100
-    attack: 10
+    attack: 30
     defense: 100
     criticalPercent: 50
     criticalDamage: 50

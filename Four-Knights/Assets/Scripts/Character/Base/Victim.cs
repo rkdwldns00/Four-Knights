@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Victim : MonoBehaviour
 {
-    StatManager statManager;
+    public StatManager StatManager { get; protected set; }
 
     public int MaxHp
     {
-        get { return (int)statManager.GetStat(StatType.Health); }
+        get { return (int)StatManager.GetStat(StatType.Health); }
     }
 
     int hp;
@@ -23,32 +23,33 @@ public class Victim : MonoBehaviour
 
     void Start()
     {
-        statManager = GetComponent<StatManager>();
-        Hp = (int)statManager.GetStat(StatType.Health);
+        StatManager = GetComponent<StatManager>();
+        Hp = (int)StatManager.GetStat(StatType.Health);
     }
 
     public void TakeDamage(int damage)
     {
-        if (statManager.GetBuff(BuffType.Barrier))
+        if (StatManager.GetBuff(BuffType.Barrier))
         {
-            int barrier = (int)statManager.GetBuffValue(BuffType.Barrier);
+            int barrier = (int)StatManager.GetBuffValue(BuffType.Barrier);
             if (damage > barrier)
             {
                 damage -= barrier;
-                statManager.ClearBuff(BuffType.Barrier);
+                StatManager.ClearBuff(BuffType.Barrier);
             }
             else
             {
-                statManager.SetBuffValue(BuffType.Barrier, barrier - damage);
+                StatManager.SetBuffValue(BuffType.Barrier, barrier - damage);
                 if(barrier <= 0)
                 {
-                    statManager.ClearBuff(BuffType.Barrier);
+                    StatManager.ClearBuff(BuffType.Barrier);
                 }
                 damage = 0;
             }
         }
-        float damageDown = (statManager.GetStat(StatType.Defence) / (statManager.GetStat(StatType.Defence) + (float)GetComponent<StatManager>().Level * 5f + 500f));
-        Hp -= (int)(damage * (1f - damageDown));
+        //float damageDown = (statManager.GetStat(StatType.Defence) / (statManager.GetStat(StatType.Defence) + (float)GetComponent<StatManager>().Level * 5f + 500f));
+        Hp -= (int)(damage);
+        Debug.Log(damage);
         if (Hp == 0)
         {
             Die();

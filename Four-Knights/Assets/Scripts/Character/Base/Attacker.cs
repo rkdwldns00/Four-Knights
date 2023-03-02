@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-    protected StatManager statManager;
+    public StatManager StatManager { get; protected set; }
     AnimatorManager animator;
 
     float basicCool;
@@ -16,7 +16,7 @@ public class Attacker : MonoBehaviour
 
     protected virtual void Start()
     {
-        statManager = GetComponent<StatManager>();
+        StatManager = GetComponent<StatManager>();
         animator = GetComponent<AnimatorManager>();
     }
 
@@ -35,10 +35,10 @@ public class Attacker : MonoBehaviour
             {
                 attackIndex = 0;
             }*/
-            basicCool = statManager.BasicAttacks[attackIndex].CoolTime;
-            InstantiateAttack(statManager.BasicAttacks[attackIndex]);
-            animator.UseAttack(attackIndex, statManager.BasicAttacks[attackIndex].StunTime);
-            if (attackIndex == statManager.BasicAttacks.Length - 1)
+            basicCool = StatManager.BasicAttacks[attackIndex].CoolTime;
+            InstantiateAttack(StatManager.BasicAttacks[attackIndex]);
+            animator.UseAttack(attackIndex, StatManager.BasicAttacks[attackIndex].StunTime);
+            if (attackIndex == StatManager.BasicAttacks.Length - 1)
             {
                 attackIndex = 0;
             }
@@ -53,9 +53,9 @@ public class Attacker : MonoBehaviour
     {
         if (skillCool < 0)
         {
-            skillCool = statManager.Skill.CoolTime;
-            Instantiate(statManager.Skill);
-            animator.UseSkill(statManager.Skill.StunTime);
+            skillCool = StatManager.Skill.CoolTime;
+            Instantiate(StatManager.Skill);
+            animator.UseSkill(StatManager.Skill.StunTime);
         }
     }
 
@@ -63,9 +63,9 @@ public class Attacker : MonoBehaviour
     {
         if (ultimateSkillCool < 0)
         {
-            ultimateSkillCool = statManager.UltimateSkill.CoolTime;
-            Instantiate(statManager.UltimateSkill);
-            animator.UseUltimateSkil(statManager.UltimateSkill.StunTime);
+            ultimateSkillCool = StatManager.UltimateSkill.CoolTime;
+            Instantiate(StatManager.UltimateSkill);
+            animator.UseUltimateSkil(StatManager.UltimateSkill.StunTime);
         }
     }
 
@@ -77,12 +77,8 @@ public class Attacker : MonoBehaviour
     void InstantiateAttack(AttackData data)
     {
         GameObject prefab = Instantiate(data.Prefab,transform.position,transform.rotation);
-        prefab.GetComponent<HitBox>().attacker = gameObject;
-        float damage = statManager.GetStat(data.UsedStatType);
-        if (Random.value < (statManager.GetStat(StatType.CriticalPercent) / 100f))
-        {
-            damage *= (1f + statManager.GetStat(StatType.CriticalDamage) / 100);
-        }
+        prefab.GetComponent<HitBox>().attacker = this;
+        float damage = StatManager.GetStat(data.UsedStatType);
         prefab.GetComponent<HitBox>().UsedStatValue = damage;
     }
 }
