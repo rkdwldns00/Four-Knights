@@ -130,9 +130,9 @@ public class ItemStatManager : StatManager
         //아이템 타입이 기타와 사용아이템이 아니거나 인벤토리에 존자하지 않을때 작동
         if ((GameManager.ItemTable[item.id].ItemType != ItemType.Etc && GameManager.ItemTable[item.id].ItemType != ItemType.Usable) || FindItemInfo(item.id).id == 0)
         {
-            if(GameManager.ItemTable[item.id].ItemType == ItemType.Etc || GameManager.ItemTable[item.id].ItemType == ItemType.Usable)
+            if (GameManager.ItemTable[item.id].ItemType == ItemType.Etc || GameManager.ItemTable[item.id].ItemType == ItemType.Usable)
             {
-                if(item.uniqueData != null && ((EtcUniqueData)item.uniqueData).count <= 0)
+                if (item.uniqueData != null && ((EtcUniqueData)item.uniqueData).count <= 0)
                 {
                     return -1;
                 }
@@ -203,6 +203,19 @@ public class ItemStatManager : StatManager
     public int AddItem(int id)
     {
         return AddItem(new Item { id = id });
+    }
+
+    public int AddItem(int id, int count)
+    {
+        ItemType type = GameManager.ItemTable[id].ItemType;
+        if (type == ItemType.Etc || type == ItemType.Usable)
+        {
+            return AddItem(new Item() { id = id, uniqueData = new EtcUniqueData() { count = count } });
+        }
+        else
+        {
+            return AddItem(id);
+        }
     }
 
     Item[] CreateUniqueData(Item[] items, int index)

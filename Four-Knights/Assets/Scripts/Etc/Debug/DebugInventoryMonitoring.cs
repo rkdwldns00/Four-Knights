@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryMonitoring : MonoBehaviour
+public class DebugInventoryMonitoring : MonoBehaviour
 {
     Text ui;
     ItemStatManager player;

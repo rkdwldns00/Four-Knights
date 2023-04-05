@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HpMonitoring : MonoBehaviour
+public class DebugHpMonitoring : MonoBehaviour
 {
     Text ui;
 
