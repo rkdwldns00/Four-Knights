@@ -26,6 +26,6 @@ MonoBehaviour:
   basicAttacks:
   - {fileID: 11400000, guid: 4fb3c423facba83489945e0273304959, type: 2}
   - {fileID: 11400000, guid: 4fb3c423facba83489945e0273304959, type: 2}
-  skill: {fileID: 0}
-  ultimateSkill: {fileID: 0}
+  skill: {fileID: 11400000, guid: 4fb3c423facba83489945e0273304959, type: 2}
+  ultimateSkill: {fileID: 11400000, guid: 4fb3c423facba83489945e0273304959, type: 2}
   weaponType: 0

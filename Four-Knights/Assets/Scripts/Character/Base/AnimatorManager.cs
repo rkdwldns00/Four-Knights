@@ -108,7 +108,7 @@ public class AnimatorManager : MonoBehaviour
         if (checkAttackLengthBuffer)
         {
             checkAttackLengthBuffer = false;
-            attackAnimationTimer = animator.GetNextAnimatorStateInfo(0).length;
+            attackAnimationTimer = animator.GetCurrentAnimatorStateInfo(0).length;
         }
 
         if (footIKEnable)
@@ -123,7 +123,7 @@ public class AnimatorManager : MonoBehaviour
         {
             return;
         }
-        if (animator.GetFloat("Speed") == 0f && IsIdle)
+        if (animator.GetFloat("Speed") == 0f && IsIdle && attackAnimationTimer <= - 1.92f)
         {
             RaycastHit leftFootHit;
             RaycastHit rightFootHit;
@@ -131,8 +131,6 @@ public class AnimatorManager : MonoBehaviour
             bool isRightHit;
             isLeftHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.LeftFoot) + new Vector3(0,ikKneeHeight,0), Vector3.down, out leftFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
             isRightHit = Physics.Raycast(animator.GetIKPosition(AvatarIKGoal.RightFoot) + new Vector3(0, ikKneeHeight, 0), Vector3.down, out rightFootHit, ikRayLength, 1 << LayerMask.NameToLayer("Map"));
-            Debug.DrawLine(leftFootHit.point - Vector3.down * 0.1f, leftFootHit.point + Vector3.down * 0.1f, Color.red, 0.1f);
-            Debug.DrawLine(rightFootHit.point - Vector3.down * 0.1f, rightFootHit.point + Vector3.down * 0.1f, Color.red, 0.1f);
 
             if (!isLeftHit && !isRightHit)
             {
